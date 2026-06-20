@@ -1,241 +1,307 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Di Spazio | The Shape of Luxury</title>
-    <!-- Tailwind CSS for elegant layout and typography -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap');
-        
-        .font-serif-luxury {
-            font-family: 'Cormorant Garamond', serif;
-        }
-        .font-sans-clean {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .gold-gradient {
-            background: linear-gradient(135deg, #dfba73 0%, #b89348 100%);
-        }
-    </style>
-</head>
-<body class="bg-[#FAF8F5] text-[#2A2A2A] font-sans-clean selection:bg-[#dfba73] selection:text-white">
+<style>
+  html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background-color: #fff; }
+  .mock { width: 100%; background: #fff; border: 0.5px solid #e0cdb5; border-radius: 12px; overflow: hidden; }
 
-    <!-- Header / Navigation -->
-    <header class="sticky top-0 z-50 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-[#E8E2D9]">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex flex-col">
-                <span class="font-serif-luxury text-2xl tracking-widest font-semibold text-[#1A1A1A]">Di Spazio</span>
-                <span class="text-[9px] tracking-[0.3em] text-[#A69277] uppercase -mt-1">The Shape of Luxury</span>
-            </div>
-            <nav class="hidden md:flex space-x-8 text-sm tracking-widest uppercase text-[#5A5A5A]">
-                <a href="#collections" class="hover:text-[#b89348] transition-colors">Collections</a>
-                <a href="#about" class="hover:text-[#b89348] transition-colors">Our Identity</a>
-                <a href="#studio" class="hover:text-[#b89348] transition-colors">Experience Studio</a>
-                <a href="#contact" class="hover:text-[#b89348] transition-colors">Contact</a>
-            </nav>
-            <a href="tel:+918858851989" class="border border-[#b89348] text-[#b89348] hover:bg-[#b89348] hover:text-white transition-all text-xs tracking-widest uppercase px-5 py-2.5 rounded-none font-medium">
-                Book Consultation
-            </a>
+  /* NAV */
+  .nav { background: #fff; border-bottom: 0.5px solid #d4b896; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 68px; position: sticky; top: 0; z-index: 10; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo-mark { width: 32px; height: 32px; }
+  .nav-brand { font-size: 20px; font-weight: 500; color: #b8924a; letter-spacing: 1px; font-style: italic; }
+  .nav-brand span { font-style: normal; font-weight: 700; letter-spacing: 2px; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #5a4530; text-decoration: none; font-family: 'Arial', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+  .nav-links a:hover { color: #b8924a; }
+  .nav-links a.active { color: #b8924a; border-bottom: 1.5px solid #b8924a; padding-bottom: 2px; }
+  .nav-links .visit-btn { border: 1px solid #b8924a; color: #b8924a; padding: 6px 16px; border-radius: 2px; transition: all 0.3s ease; }
+  .nav-links .visit-btn:hover { background: #b8924a; color: #fff; }
+
+  /* HERO */
+  .hero { height: 540px; background: linear-gradient(160deg, rgba(255, 255, 255, 0.15) 0%, rgba(42, 30, 16, 0.5) 100%), url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .hero-bg-text { position: absolute; font-size: 150px; color: rgba(255,255,255,0.06); font-weight: 700; letter-spacing: 16px; top: 50%; left: 50%; transform: translate(-50%,-50%); white-space: nowrap; font-family: 'Arial', sans-serif; pointer-events: none; text-transform: uppercase; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #e8d5bb; font-family: 'Arial', sans-serif; margin-bottom: 16px; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+  .hero-title { font-size: 48px; color: #ffffff; font-weight: 400; text-align: center; line-height: 1.25; margin-bottom: 16px; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+  .hero-title em { color: #e8d5bb; font-style: italic; }
+  .hero-sub { font-size: 15px; color: #f5ede0; text-align: center; letter-spacing: 1px; font-family: 'Arial', sans-serif; margin-bottom: 32px; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+  .hero-cta { display: flex; gap: 14px; }
+  .btn-gold { background: #b8924a; color: #fff; border: none; padding: 12px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Arial', sans-serif; transition: background 0.3s; }
+  .btn-gold:hover { background: #9a7635; }
+  .btn-outline { background: transparent; color: #ffffff; border: 1px solid #ffffff; padding: 12px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Arial', sans-serif; transition: all 0.3s; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+  .btn-outline:hover { background: #ffffff; color: #2a1e10; }
+
+  /* SECTION COMMON */
+  .section { padding: 85px 48px; }
+  .section-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #b8924a; font-family: 'Arial', sans-serif; margin-bottom: 8px; font-weight: 600; }
+  .section-title { font-size: 34px; color: #2a1e10; font-weight: 400; margin-bottom: 6px; letter-spacing: -0.5px; }
+  .divider { width: 48px; height: 1.5px; background: #b8924a; margin: 16px 0 24px; }
+
+  /* ABOUT */
+  .about { background: #faf6f0; display: flex; gap: 56px; align-items: center; }
+  .about-text { flex: 1.2; }
+  .about-text p { font-size: 15px; color: #5a4530; line-height: 1.9; font-family: 'Arial', sans-serif; margin-bottom: 16px; }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-visual { flex: 0.8; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .about-card { background: #e8d5bb; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 16px; text-align: center; }
+  .about-card .num { font-size: 34px; color: #b8924a; font-weight: 400; }
+  .about-card .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a6040; font-family: 'Arial', sans-serif; margin-top: 6px; font-weight: 500; }
+
+  /* COLLECTIONS */
+  .collections { background: #fff; }
+  .col-tabs { display: flex; gap: 0; margin-bottom: 32px; border-bottom: 1px solid #e0cdb5; }
+  .col-tab { padding: 12px 24px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a6040; font-family: 'Arial', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.3s; }
+  .col-tab:hover { color: #b8924a; }
+  .col-tab.active { color: #b8924a; border-bottom-color: #b8924a; font-weight: 600; }
+  .col-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; min-height: 240px; }
+  .col-item { background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 16px rgba(42,30,16,0.05); transition: all 0.3s ease; border: 0.5px solid #faf6f0; }
+  .col-item:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(42,30,16,0.1); }
+  .col-img { height: 180px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; }
+  .col-info { padding: 16px; background: #fff; }
+  .col-info .name { font-size: 14px; color: #2a1e10; font-family: 'Arial', sans-serif; font-weight: 600; margin-bottom: 4px; }
+  .col-info .cat { font-size: 11px; color: #b8924a; letter-spacing: 1px; text-transform: uppercase; font-family: 'Arial', sans-serif; font-weight: 500; }
+
+  /* EXPERIENCE */
+  .experience { background: #2a1e10; padding: 85px 48px; display: flex; align-items: center; gap: 56px; }
+  .exp-text { flex: 1; }
+  .exp-text .section-label { color: #d4b896; }
+  .exp-text .section-title { color: #f5ede0; }
+  .exp-text p { font-size: 14px; color: #c0a070; line-height: 1.9; font-family: 'Arial', sans-serif; margin-bottom: 24px; }
+  .exp-text .divider { background: #b8924a; }
+  .video-frame { flex: 1; height: 280px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-radius: 4px; background: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80') center/cover no-repeat; cursor: pointer; }
+  .video-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(58,42,26,0.3) 0%, rgba(26,16,10,0.6) 100%); transition: background 0.3s; }
+  .video-frame:hover::before { background: linear-gradient(135deg, rgba(58,42,26,0.4) 0%, rgba(26,16,10,0.7) 100%); }
+  .video-play { width: 56px; height: 56px; border-radius: 50%; border: 2px solid #b8924a; background: rgba(42,30,16,0.7); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; transition: transform 0.3s; }
+  .video-frame:hover .video-play { transform: scale(1.1); }
+  .video-play svg { width: 20px; height: 20px; fill: #b8924a; margin-left: 2px; }
+  .video-label { position: absolute; bottom: 14px; left: 16px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #d4b896; font-family: 'Arial', sans-serif; z-index: 1; font-weight: 500; }
+
+  /* GALLERY */
+  .gallery { background: #f5ede0; }
+  .gallery-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 200px 200px; gap: 12px; }
+  .g-item { border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; background-size: cover; background-position: center; transition: transform 0.3s; }
+  .g-item:hover { transform: scale(1.005); }
+  .g-item::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.15); transition: background 0.3s; }
+  .g-item:hover::before { background: rgba(0,0,0,0.3); }
+  .g-item.tall { grid-row: span 2; }
+  .g-item .g-label { position: absolute; bottom: 14px; left: 16px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; font-family: 'Arial', sans-serif; z-index: 1; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+
+  /* CONTACT */
+  .contact { background: #fff; display: flex; gap: 56px; align-items: flex-start; }
+  .contact-left { flex: 1; }
+  .contact-right { flex: 1; }
+  .contact-right p { font-size: 14px; color: #5a4530; font-family: 'Arial', sans-serif; line-height: 1.8; margin-bottom: 12px; }
+  .contact-items { display: flex; flex-direction: column; gap: 18px; margin-top: 16px; }
+  .contact-item { display: flex; align-items: flex-start; gap: 14px; }
+  .contact-item .ci-icon { color: #b8924a; font-size: 16px; }
+  .contact-item .ci-text { font-size: 13px; color: #5a4530; font-family: 'Arial', sans-serif; line-height: 1.5; }
+  .contact-form { display: flex; flex-direction: column; gap: 12px; }
+  .contact-form input, .contact-form textarea { border: 0.5px solid #d4b896; padding: 12px 14px; font-size: 13px; font-family: 'Arial', sans-serif; color: #2a1e10; background: #faf6f0; border-radius: 2px; outline: none; }
+  .contact-form textarea { height: 100px; resize: none; }
+
+  /* FOOTER */
+  .footer { background: #1a100a; padding: 36px 48px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-size: 16px; color: #b8924a; font-style: italic; letter-spacing: 1px; }
+  .footer-brand span { font-style: normal; font-weight: 700; }
+  .footer-copy { font-size: 11px; color: #7a6040; font-family: 'Arial', sans-serif; letter-spacing: 1px; }
+
+  .section-header { margin-bottom: 28px; }
+</style>
+
+<div class="mock">
+
+  <nav class="nav">
+    <div class="nav-logo">
+      <svg class="nav-logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="90" height="90" rx="16" stroke="#b8924a" stroke-width="4" fill="none"/>
+        <path d="M25 25 Q15 35 25 45 Q35 55 25 65 Q15 75 25 80" stroke="#b8924a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M50 25 Q40 35 50 45 Q60 55 50 65 Q40 75 50 80" stroke="#b8924a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M75 25 Q65 35 75 45 Q85 55 75 65 Q65 75 75 80" stroke="#b8924a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="nav-brand">Di <span>SPAZIO</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#collections">Collections</a>
+      <a href="#experience">Experience Studio</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+      <a class="visit-btn" href="https://maps.google.com" target="_blank">Visit Studio</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-bg-text">SPAZIO</div>
+    <div class="hero-eyebrow">The Shape of Luxury</div>
+    <h1 class="hero-title">Where Form Meets<br><em>Timeless Elegance</em></h1>
+    <p class="hero-sub">Curated luxury furniture & decor for the discerning eye</p>
+    <div class="hero-cta">
+      <button class="btn-gold" onclick="window.location.href='#collections'">Explore Collections</button>
+      <button class="btn-outline" onclick="window.location.href='#experience'">Experience Studio</button>
+    </div>
+  </section>
+
+  <section class="section about" id="about">
+    <div class="about-text">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">Crafted with Intent,<br>Designed to Last</h2>
+      <div class="divider"></div>
+      <p>Di Spazio was born from a singular vision — to bring the art of Italian spatial design to homes and studios that demand nothing short of perfection. Each piece in our curated collection is selected for its craftsmanship, provenance, and the story it tells.</p>
+      <p>From bespoke furniture to rare decorative objects, we work with master artisans and international design houses to offer a living experience that transcends the ordinary.</p>
+      <button class="btn-gold" style="margin-top:8px">Discover Our Story</button>
+    </div>
+    <div class="about-visual">
+      <div class="about-card" style="grid-column: span 2; background: #d4b896;">
+        <div class="num">15+</div>
+        <div class="label">Years of Excellence</div>
+      </div>
+      <div class="about-card">
+        <div class="num">500+</div>
+        <div class="label">Curated Pieces</div>
+      </div>
+      <div class="about-card">
+        <div class="num">12</div>
+        <div class="label">Design Partners</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section collections" id="collections">
+    <div class="section-header">
+      <div class="section-label">Collections</div>
+      <h2 class="section-title">Explore Our World</h2>
+      <div class="divider"></div>
+    </div>
+    
+    <div class="col-tabs">
+      <div class="col-tab active" id="tab-furniture" onclick="switchTab('furniture')">Furniture</div>
+      <div class="col-tab" id="tab-artifacts" onclick="switchTab('artifacts')">Artifacts & Decor</div>
+    </div>
+    
+    <div class="col-grid" id="collections-grid">
+      </div>
+  </section>
+
+  <section class="experience" id="experience">
+    <div class="exp-text">
+      <div class="section-label">Experience Studio</div>
+      <h2 class="section-title">Step Inside Our World</h2>
+      <div class="divider"></div>
+      <p>Our Experience Studio is where imagination becomes tangible. Walk through fully styled living environments, touch the textures, feel the proportions, and understand how each piece inhabits space. Let the studio guide your vision.</p>
+      <button class="btn-gold">Watch the Film</button>
+    </div>
+    <div class="video-frame">
+      <div class="video-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="video-label">Studio Tour — 3:42</div>
+    </div>
+  </section>
+
+  <section class="section gallery" id="gallery">
+    <div class="section-header">
+      <div class="section-label">Gallery</div>
+      <h2 class="section-title">A Life Well Designed</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item tall" style="background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80');">
+        <div class="g-label">Living Spaces</div>
+      </div>
+      <div class="g-item" style="background-image: url('https://images.unsplash.com/photo-1617806118233-18e1db207f62?auto=format&fit=crop&w=600&q=80');">
+        <div class="g-label">Dining Elegance</div>
+      </div>
+      <div class="g-item" style="background-image: url('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=600&q=80');">
+        <div class="g-label">Bespoke Bedroom</div>
+      </div>
+      <div class="g-item" style="background-image: url('https://images.unsplash.com/photo-1534349762230-e0cadf78f5db?auto=format&fit=crop&w=600&q=80');">
+        <div class="g-label">Artisan Decor</div>
+      </div>
+      <div class="g-item" style="background-image: url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80');">
+        <div class="g-label">The Studio</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="contact-left">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">Let's Create<br>Your Space</h2>
+      <div class="divider"></div>
+      <div class="contact-items">
+        <div class="contact-item">
+          <span class="ci-icon">📍</span>
+          <div class="ci-text">Studio Address<br><span style="color:#2a1e10; font-weight:500;">Banjara Hills, Road No. 3, Hyderabad, Telangana</span></div>
         </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="relative min-h-[85vh] bg-[#141414] text-white flex items-center overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-50">
-            <img src="725649511_122115683769257410_5031602951355371424_n.jpg" alt="Relax Into Better Living Showcase" class="w-full h-full object-cover object-center">
+        <div class="contact-item">
+          <span class="ci-icon">📞</span>
+          <div class="ci-text">Call Us<br><span style="color:#2a1e10; font-weight:500;">+91 98765 43210</span></div>
         </div>
-        <div class="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/70 to-transparent z-10"></div>
-        
-        <div class="max-w-7xl mx-auto px-6 relative z-20 py-20 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="text-[#dfba73] tracking-[0.4em] uppercase text-xs font-semibold block mb-3">Premium Italian Furniture</span>
-                <h1 class="font-serif-luxury text-5xl md:text-7xl font-light tracking-wide leading-tight mb-6">
-                    Relax Into <br><span class="italic">Better Living</span>
-                </h1>
-                <p class="text-gray-300 font-light max-w-md text-base leading-relaxed mb-8">
-                    Discover custom architectural curves, meticulously engineered frameworks, and pure Italian craftsmanship brought directly to the heart of luxury homes.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#studio" class="gold-gradient text-white text-xs font-medium tracking-widest uppercase px-8 py-4 inline-flex items-center justify-center hover:opacity-90 transition-opacity">
-                        Visit The Experience Studio
-                    </a>
-                    <a href="#collections" class="border border-white/30 text-white text-xs font-medium tracking-widest uppercase px-8 py-4 inline-flex items-center justify-center hover:bg-white hover:text-black transition-all">
-                        Explore Lookbook
-                    </a>
-                </div>
-            </div>
+        <div class="contact-item">
+          <span class="ci-icon">✉️</span>
+          <div class="ci-text">Email<br><span style="color:#2a1e10; font-weight:500;">hello@dispazio.com</span></div>
         </div>
-    </section>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="contact-form">
+        <input type="text" placeholder="Your Name" />
+        <input type="email" placeholder="Email Address" />
+        <input type="tel" placeholder="Phone Number" />
+        <textarea placeholder="Tell us about your project..."></textarea>
+        <button class="btn-gold" style="align-self: flex-start;">Send Enquiry</button>
+      </div>
+    </div>
+  </section>
 
-    <!-- Brand Philosophy Strips -->
-    <section class="bg-[#1A1A1A] text-[#FAF8F5] py-12 border-b border-[#b89348]/20">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[#b89348]/20">
-            <div class="pt-6 md:pt-0">
-                <h3 class="font-serif-luxury text-2xl italic text-[#dfba73]">From Italy with Taste</h3>
-                <p class="text-xs text-gray-400 mt-2 tracking-wider">Authentic European aesthetic guidelines</p>
-            </div>
-            <div class="pt-6 md:pt-0">
-                <h3 class="font-serif-luxury text-2xl italic text-[#dfba73]">Italian Design. Smarter Pricing.</h3>
-                <p class="text-xs text-gray-400 mt-2 tracking-wider">Uncompromised opulence made accessible</p>
-            </div>
-            <div class="pt-6 md:pt-0">
-                <h3 class="font-serif-luxury text-2xl italic text-[#dfba73]">Exclusive By Nature</h3>
-                <p class="text-xs text-gray-400 mt-2 tracking-wider">Rare textures, premium materials, elite comfort</p>
-            </div>
+  <footer class="footer">
+    <div class="footer-brand">Di <span>SPAZIO</span> <span style="font-size:10px; color:#7a6040; font-style:normal; font-weight:400; letter-spacing:2px; margin-left:8px;">THE SHAPE OF LUXURY</span></div>
+    <div class="footer-copy">© 2026 Di Spazio. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  const furnitureData = [
+    { name: 'Living Room Sets', cat: 'Furniture', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Sartorial Dining Tables', cat: 'Furniture', img: 'https://images.unsplash.com/photo-1617806118233-18e1db207f62?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Luxury Beds & Suites', cat: 'Furniture', img: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Accent Chairs & Lounges', cat: 'Furniture', img: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=600&q=80' }
+  ];
+
+  const artifactsData = [
+    { name: 'Travertine & Ceramic Vases', cat: 'Artifacts & Decor', img: 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Architectural Pendant Lights', cat: 'Artifacts & Decor', img: 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Hand-blown Glassware', cat: 'Artifacts & Decor', img: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Marble Table Accents', cat: 'Artifacts & Decor', img: 'https://images.unsplash.com/photo-1606744824163-985d376605aa?auto=format&fit=crop&w=600&q=80' }
+  ];
+
+  function renderGrid(items) {
+    const grid = document.getElementById('collections-grid');
+    grid.innerHTML = items.map(item => `
+      <div class="col-item">
+        <div class="col-img" style="background-image: url('${item.img}')"></div>
+        <div class="col-info">
+          <div class="name">${item.name}</div>
+          <div class="cat">${item.cat}</div>
         </div>
-    </section>
+      </div>
+    `).join('');
+  }
 
-    <!-- Curated Lookbook / Collections -->
-    <section id="collections" class="py-24 max-w-7xl mx-auto px-6">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="text-[#b89348] tracking-[0.3em] uppercase text-xs font-semibold block mb-2">The Signature Grid</span>
-            <h2 class="font-serif-luxury text-4xl md:text-5xl font-normal">Every Piece Tells An Architectural Story</h2>
-            <div class="w-12 h-[1px] bg-[#b89348] mx-auto mt-4"></div>
-        </div>
+  function switchTab(type) {
+    document.getElementById('tab-furniture').classList.remove('active');
+    document.getElementById('tab-artifacts').classList.remove('active');
+    
+    if (type === 'furniture') {
+      document.getElementById('tab-furniture').classList.add('active');
+      renderGrid(furnitureData);
+    } else {
+      document.getElementById('tab-artifacts').classList.add('active');
+      renderGrid(artifactsData);
+    }
+  }
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Item 1 -->
-            <div class="group overflow-hidden bg-white border border-[#E8E2D9]">
-                <div class="overflow-hidden aspect-[4/5]">
-                    <img src="718675457_122114860905257410_4725599367923824491_n.jpg" alt="From Italy with Taste Minimalism Sofa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-                <div class="p-6">
-                    <span class="text-xs uppercase text-[#A69277] tracking-widest block mb-1">Living Room Lounge</span>
-                    <h4 class="font-serif-luxury text-xl text-[#1A1A1A]">From Italy with Taste Sofa</h4>
-                </div>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="group overflow-hidden bg-white border border-[#E8E2D9]">
-                <div class="overflow-hidden aspect-[4/5]">
-                    <img src="719788812_122114934297257410_2313515134034799160_n.jpg" alt="Designed to Stay Luxury Accent Swivel Chair" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-                <div class="p-6">
-                    <span class="text-xs uppercase text-[#A69277] tracking-widest block mb-1">Statement Accents</span>
-                    <h4 class="font-serif-luxury text-xl text-[#1A1A1A]">Designed To Stay Swivel</h4>
-                </div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="group overflow-hidden bg-white border border-[#E8E2D9]">
-                <div class="overflow-hidden aspect-[4/5]">
-                    <img src="720540282_122115228681257410_990191299364478467_n.jpg" alt="Italian Living Custom Curved Sofa Layout" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-                <div class="p-6">
-                    <span class="text-xs uppercase text-[#A69277] tracking-widest block mb-1">Villa Concepts</span>
-                    <h4 class="font-serif-luxury text-xl text-[#1A1A1A]">Italian Living Curved Suite</h4>
-                </div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="group overflow-hidden bg-white border border-[#E8E2D9]">
-                <div class="overflow-hidden aspect-[4/5]">
-                    <img src="720949951_122115143277257410_491190974843536662_n.jpg" alt="Italian Design Smarter Pricing Sofa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-                <div class="p-6">
-                    <span class="text-xs uppercase text-[#A69277] tracking-widest block mb-1">Contemporary Terracotta</span>
-                    <h4 class="font-serif-luxury text-xl text-[#1A1A1A]">Smarter Pricing Collection</h4>
-                </div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="group overflow-hidden bg-white border border-[#E8E2D9]">
-                <div class="overflow-hidden aspect-[4/5]">
-                    <img src="723768935_122115327381257410_4181573034648058137_n.jpg" alt="Exclusive By Nature Houndstooth Armchair" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-                <div class="p-6">
-                    <span class="text-xs uppercase text-[#A69277] tracking-widest block mb-1">Artisan Houndstooth</span>
-                    <h4 class="font-serif-luxury text-xl text-[#1A1A1A]">Exclusive By Nature Armchair</h4>
-                </div>
-            </div>
-
-            <!-- Item 6 -->
-            <div class="group overflow-hidden bg-white border border-[#E8E2D9]">
-                <div class="overflow-hidden aspect-[4/5]">
-                    <img src="724922658_122115947583257410_3467288407521661878_n.jpg" alt="Sit in Style Live in Luxury Lounge Chair" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-                <div class="p-6">
-                    <span class="text-xs uppercase text-[#A69277] tracking-widest block mb-1">Minimalist Studio Wood</span>
-                    <h4 class="font-serif-luxury text-xl text-[#1A1A1A]">Sit in Style Luxury Armchair</h4>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Geo-Heritage Spotlight Feature Section -->
-    <section id="about" class="bg-[#F0ECE3] py-20 border-t border-b border-[#E8E2D9]">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="order-2 lg:order-1">
-                <img src="724216663_122115402435257410_6945003482879299934_n.jpg" alt="Italy Finds A Home In Hyderabad Rocking Chair Set" class="w-full object-cover rounded-none shadow-xl border border-white/50">
-            </div>
-            <div class="order-1 lg:order-2 space-y-6 lg:pl-6">
-                <span class="text-[#b89348] tracking-[0.3em] uppercase text-xs font-semibold block">Global Design, Local Pride</span>
-                <h2 class="font-serif-luxury text-4xl md:text-5xl font-normal text-[#1A1A1A] leading-tight">
-                    Italy Finds A Home <br>In Hyderabad.
-                </h2>
-                <div class="w-12 h-[1px] bg-[#b89348]"></div>
-                <p class="text-gray-600 font-light leading-relaxed">
-                    Bringing the world-renowned design ethos of Milan and the absolute apex of European relaxation directly to Nadergul. Our curated pieces blend flawlessly with local modern villas and luxury architectural estates.
-                </p>
-                <div class="pt-4">
-                    <div class="text-sm font-medium uppercase tracking-widest text-[#1A1A1A]">Experience Studio Location:</div>
-                    <p class="text-sm text-gray-600 mt-1">Near Delhi Public School, Nadergul, Hyderabad</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Studio Visit / Contact CTA -->
-    <section id="studio" class="py-24 max-w-4xl mx-auto px-6 text-center">
-        <span class="text-[#b89348] tracking-[0.3em] uppercase text-xs font-semibold block mb-2">Private Showroom Appointments</span>
-        <h2 class="font-serif-luxury text-3xl md:text-5xl font-normal mb-6 text-[#1A1A1A]">Discover The Shape Of Luxury In Person</h2>
-        <p class="text-gray-600 max-w-xl mx-auto font-light mb-10 text-sm md:text-base leading-relaxed">
-            Touch custom woven fabrics, test responsive ergonomic contours, and consult with deep-domain luxury interior advisors at our flagship Experience Studio.
-        </p>
-        <div class="inline-flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="tel:+918858851989" class="gold-gradient text-white px-10 py-4 text-xs tracking-widest uppercase font-medium shadow-lg hover:opacity-95 transition-opacity">
-                Call +91 885 885 1989
-            </a>
-            <span class="text-gray-400 text-xs uppercase tracking-widest">or walk-in today</span>
-        </div>
-    </section>
-
-    <!-- Luxury Footer Section -->
-    <footer id="contact" class="bg-[#141414] text-gray-400 text-sm pt-16 pb-12 border-t-2 border-[#b89348]">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-            <div>
-                <div class="flex flex-col mb-4">
-                    <span class="font-serif-luxury text-2xl tracking-widest font-semibold text-white">Di Spazio</span>
-                    <span class="text-[9px] tracking-[0.3em] text-[#dfba73] uppercase -mt-1">The Shape of Luxury</span>
-                </div>
-                <p class="text-xs text-gray-400 font-light leading-relaxed max-w-sm">
-                    Luxury European interior curation redefining structural lounge spaces across modern elite properties.
-                </p>
-            </div>
-            <div>
-                <h4 class="text-white text-xs tracking-[0.2em] uppercase font-semibold mb-4">The Flagship Experience</h4>
-                <p class="text-xs leading-relaxed text-gray-300">
-                    <strong class="text-white">Location:</strong><br>
-                    Near Delhi Public School,<br>
-                    Nadergul, Hyderabad
-                </p>
-            </div>
-            <div>
-                <h4 class="text-white text-xs tracking-[0.2em] uppercase font-semibold mb-4">Direct Concierge</h4>
-                <p class="text-xs leading-relaxed text-gray-300 mb-2">
-                    <strong class="text-white">Phone Contact:</strong><br>
-                    <a href="tel:+918858851989" class="hover:text-[#dfba73] transition-colors">+91 885 885 1989</a>
-                </p>
-                <p class="text-xs text-gray-500">Available Daily: 10:00 AM — 8:00 PM</p>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-white/10 text-center text-xs text-gray-600 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>&copy; 2026 Di Spazio Furniture. All Rights Reserved.</p>
-            <p class="tracking-widest uppercase text-[10px]">From Italy with Taste</p>
-        </div>
-    </footer>
-
-</body>
-</html>
+  // Render initialization
+  renderGrid(furnitureData);
+</script>
