@@ -1,0 +1,276 @@
+<style>
+  /* Added smooth scrolling for anchor links */
+  html { scroll-behavior: smooth; }
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; }
+  .mock { width: 100%; background: #fff; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+
+  /* NAV */
+  .nav { background: #fff; border-bottom: 0.5px solid #d4b896; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 68px; position: sticky; top: 0; z-index: 10; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo-mark { width: 32px; height: 32px; }
+  .nav-brand { font-size: 20px; font-weight: 500; color: #b8924a; letter-spacing: 1px; font-style: italic; }
+  .nav-brand span { font-style: normal; font-weight: 700; letter-spacing: 2px; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #5a4530; text-decoration: none; font-family: 'Arial', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+  .nav-links a:hover { color: #b8924a; }
+  .nav-links a.active { color: #b8924a; border-bottom: 1.5px solid #b8924a; padding-bottom: 2px; }
+  .nav-links .visit-btn { border: 1px solid #b8924a; color: #b8924a; padding: 6px 16px; border-radius: 2px; }
+  .nav-links .visit-btn:hover { background: #b8924a; color: #fff; }
+
+  /* HERO */
+  .hero { height: 420px; background: linear-gradient(160deg, #f5ede0 0%, #e8d5bb 50%, #d4b896 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .hero-bg-text { position: absolute; font-size: 120px; color: rgba(184,146,74,0.07); font-weight: 700; letter-spacing: 8px; top: 50%; left: 50%; transform: translate(-50%,-50%); white-space: nowrap; font-family: 'Arial', sans-serif; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #b8924a; font-family: 'Arial', sans-serif; margin-bottom: 16px; }
+  .hero-title { font-size: 42px; color: #3a2a1a; font-weight: 400; text-align: center; line-height: 1.2; margin-bottom: 12px; }
+  .hero-title em { color: #b8924a; font-style: italic; }
+  .hero-sub { font-size: 14px; color: #7a6040; text-align: center; letter-spacing: 1px; font-family: 'Arial', sans-serif; margin-bottom: 28px; }
+  .hero-cta { display: flex; gap: 14px; }
+  .btn-gold { background: #b8924a; color: #fff; border: none; padding: 12px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Arial', sans-serif; }
+  .btn-outline { background: transparent; color: #3a2a1a; border: 1px solid #3a2a1a; padding: 12px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Arial', sans-serif; }
+
+  /* SECTION COMMON */
+  .section { padding: 60px 48px; }
+  .section-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #b8924a; font-family: 'Arial', sans-serif; margin-bottom: 8px; }
+  .section-title { font-size: 30px; color: #2a1e10; font-weight: 400; margin-bottom: 6px; }
+  .divider { width: 48px; height: 1.5px; background: #b8924a; margin: 16px 0 24px; }
+
+  /* ABOUT */
+  .about { background: #faf6f0; display: flex; gap: 48px; align-items: center; }
+  .about-text { flex: 1.2; }
+  .about-text p { font-size: 15px; color: #5a4530; line-height: 1.85; font-family: 'Arial', sans-serif; margin-bottom: 14px; }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-visual { flex: 0.8; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .about-card { background: #e8d5bb; border-radius: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 12px; text-align: center; }
+  .about-card .num { font-size: 28px; color: #b8924a; font-weight: 400; }
+  .about-card .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a6040; font-family: 'Arial', sans-serif; margin-top: 4px; }
+
+  /* COLLECTIONS */
+  .collections { background: #fff; }
+  .col-tabs { display: flex; gap: 0; margin-bottom: 28px; border-bottom: 1px solid #e0cdb5; }
+  .col-tab { padding: 8px 20px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a6040; font-family: 'Arial', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .col-tab.active { color: #b8924a; border-bottom-color: #b8924a; }
+  .col-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .col-item { background: #f5ede0; border-radius: 2px; overflow: hidden; }
+  .col-img { height: 120px; background: linear-gradient(135deg, #e8d5bb, #d4b896); display: flex; align-items: center; justify-content: center; }
+  .col-img i { font-size: 32px; color: #b8924a; opacity: 0.6; }
+  .col-info { padding: 12px; }
+  .col-info .name { font-size: 13px; color: #2a1e10; font-family: 'Arial', sans-serif; margin-bottom: 4px; }
+  .col-info .cat { font-size: 11px; color: #b8924a; letter-spacing: 1px; text-transform: uppercase; font-family: 'Arial', sans-serif; }
+
+  /* EXPERIENCE */
+  .experience { background: #2a1e10; padding: 60px 48px; display: flex; align-items: center; gap: 48px; }
+  .exp-text { flex: 1; }
+  .exp-text .section-label { color: #d4b896; }
+  .exp-text .section-title { color: #f5ede0; }
+  .exp-text p { font-size: 14px; color: #c0a070; line-height: 1.85; font-family: 'Arial', sans-serif; margin-bottom: 20px; }
+  .exp-text .divider { background: #b8924a; }
+  .video-frame { flex: 1; background: #3a2a1a; border-radius: 2px; height: 200px; display: flex; align-items: center; justify-content: center; border: 1px solid #5a4530; position: relative; overflow: hidden; }
+  .video-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, #3a2a1a 0%, #1a100a 100%); }
+  .video-play { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #b8924a; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+  .video-play i { font-size: 20px; color: #b8924a; margin-left: 3px; }
+  .video-label { position: absolute; bottom: 14px; left: 16px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #d4b896; font-family: 'Arial', sans-serif; z-index: 1; }
+
+  /* GALLERY */
+  .gallery { background: #f5ede0; }
+  .gallery-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 140px 140px; gap: 10px; }
+  .g-item { background: linear-gradient(135deg, #e8d5bb, #c9a870); border-radius: 2px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .g-item.tall { grid-row: span 2; }
+  .g-item i { font-size: 28px; color: rgba(255,255,255,0.5); }
+  .g-item .g-label { position: absolute; bottom: 10px; left: 12px; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.85); font-family: 'Arial', sans-serif; }
+
+  /* CONTACT */
+  .contact { background: #fff; display: flex; gap: 48px; align-items: flex-start; }
+  .contact-left { flex: 1; }
+  .contact-right { flex: 1; }
+  .contact-right p { font-size: 14px; color: #5a4530; font-family: 'Arial', sans-serif; line-height: 1.8; margin-bottom: 12px; }
+  .contact-items { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
+  .contact-item { display: flex; align-items: flex-start; gap: 12px; }
+  .contact-item i { font-size: 18px; color: #b8924a; margin-top: 2px; }
+  .contact-item .ci-text { font-size: 13px; color: #5a4530; font-family: 'Arial', sans-serif; line-height: 1.5; }
+  .contact-form { display: flex; flex-direction: column; gap: 10px; }
+  .contact-form input, .contact-form textarea { border: 0.5px solid #d4b896; padding: 10px 14px; font-size: 13px; font-family: 'Arial', sans-serif; color: #2a1e10; background: #faf6f0; border-radius: 2px; outline: none; }
+  .contact-form textarea { height: 80px; resize: none; }
+
+  /* FOOTER */
+  .footer { background: #1a100a; padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-size: 16px; color: #b8924a; font-style: italic; letter-spacing: 1px; }
+  .footer-brand span { font-style: normal; font-weight: 700; }
+  .footer-copy { font-size: 11px; color: #7a6040; font-family: 'Arial', sans-serif; letter-spacing: 1px; }
+
+  .section-header { margin-bottom: 28px; }
+</style>
+
+<div class="mock">
+
+  <nav class="nav">
+    <div class="nav-logo">
+      <svg class="nav-logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="90" height="90" rx="16" stroke="#b8924a" stroke-width="4" fill="none"/>
+        <path d="M25 25 Q15 35 25 45 Q35 55 25 65 Q15 75 25 80" stroke="#b8924a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M50 25 Q40 35 50 45 Q60 55 50 65 Q40 75 50 80" stroke="#b8924a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M75 25 Q65 35 75 45 Q85 55 75 65 Q65 75 75 80" stroke="#b8924a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="nav-brand">Di <span>SPAZIO</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#collections">Collections</a>
+      <a href="#experience">Experience Studio</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+      <a class="visit-btn" href="https://maps.google.com" target="_blank"><i class="ti ti-map-pin" aria-hidden="true"></i> Visit Studio</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-bg-text">SPAZIO</div>
+    <div class="hero-eyebrow">The Shape of Luxury</div>
+    <h1 class="hero-title">Where Form Meets<br><em>Timeless Elegance</em></h1>
+    <p class="hero-sub">Curated luxury furniture & decor for the discerning eye</p>
+    <div class="hero-cta">
+      <button class="btn-gold" onclick="window.location.href='#collections'">Explore Collections</button>
+      <button class="btn-outline" onclick="window.location.href='#experience'">Experience Studio</button>
+    </div>
+  </section>
+
+  <section class="section about" id="about">
+    <div class="about-text">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">Crafted with Intent,<br>Designed to Last</h2>
+      <div class="divider"></div>
+      <p>Di Spazio was born from a singular vision — to bring the art of Italian spatial design to homes and studios that demand nothing short of perfection. Each piece in our curated collection is selected for its craftsmanship, provenance, and the story it tells.</p>
+      <p>From bespoke furniture to rare decorative objects, we work with master artisans and international design houses to offer a living experience that transcends the ordinary.</p>
+      <button class="btn-gold" style="margin-top:8px">Discover Our Story</button>
+    </div>
+    <div class="about-visual">
+      <div class="about-card" style="grid-column: span 2; background: #d4b896;">
+        <div class="num">15+</div>
+        <div class="label">Years of Excellence</div>
+      </div>
+      <div class="about-card">
+        <div class="num">500+</div>
+        <div class="label">Curated Pieces</div>
+      </div>
+      <div class="about-card">
+        <div class="num">12</div>
+        <div class="label">Design Partners</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section collections" id="collections">
+    <div class="section-header">
+      <div class="section-label">Collections</div>
+      <h2 class="section-title">Explore Our World</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="col-tabs">
+      <div class="col-tab active">Furniture</div>
+      <div class="col-tab">Artifacts & Decor</div>
+    </div>
+    <div class="col-grid">
+      <div class="col-item">
+        <div class="col-img"><i class="ti ti-sofa" aria-hidden="true"></i></div>
+        <div class="col-info"><div class="name">Living Room</div><div class="cat">Furniture</div></div>
+      </div>
+      <div class="col-item">
+        <div class="col-img"><i class="ti ti-coffee" aria-hidden="true"></i></div>
+        <div class="col-info"><div class="name">Dining</div><div class="cat">Furniture</div></div>
+      </div>
+      <div class="col-item">
+        <div class="col-img"><i class="ti ti-bed" aria-hidden="true"></i></div>
+        <div class="col-info"><div class="name">Bedroom</div><div class="cat">Furniture</div></div>
+      </div>
+      <div class="col-item">
+        <div class="col-img"><i class="ti ti-armchair" aria-hidden="true"></i></div>
+        <div class="col-info"><div class="name">Home Office</div><div class="cat">Furniture</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="experience" id="experience">
+    <div class="exp-text">
+      <div class="section-label">Experience Studio</div>
+      <h2 class="section-title" style="color:#f5ede0;">Step Inside Our World</h2>
+      <div class="divider"></div>
+      <p>Our Experience Studio is where imagination becomes tangible. Walk through fully styled living environments, touch the textures, feel the proportions, and understand how each piece inhabits space. Let the studio guide your vision.</p>
+      <button class="btn-gold">Watch the Film</button>
+    </div>
+    <div class="video-frame">
+      <div class="video-play">
+        <i class="ti ti-player-play" aria-hidden="true"></i>
+      </div>
+      <div class="video-label">Studio Tour — 3:42</div>
+    </div>
+  </section>
+
+  <section class="section gallery" id="gallery">
+    <div class="section-header">
+      <div class="section-label">Gallery</div>
+      <h2 class="section-title">A Life Well Designed</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item tall" style="background: linear-gradient(155deg, #c9a870, #a07840);">
+        <i class="ti ti-photo" aria-hidden="true"></i>
+        <div class="g-label">Living Spaces</div>
+      </div>
+      <div class="g-item" style="background: linear-gradient(135deg, #d4b896, #b8924a);">
+        <i class="ti ti-photo" aria-hidden="true"></i>
+        <div class="g-label">Dining</div>
+      </div>
+      <div class="g-item" style="background: linear-gradient(135deg, #b8924a, #8a6830);">
+        <i class="ti ti-photo" aria-hidden="true"></i>
+        <div class="g-label">Bedroom</div>
+      </div>
+      <div class="g-item" style="background: linear-gradient(135deg, #e8d5bb, #c9a870);">
+        <i class="ti ti-photo" aria-hidden="true"></i>
+        <div class="g-label">Decor</div>
+      </div>
+      <div class="g-item" style="background: linear-gradient(135deg, #a07840, #704820);">
+        <i class="ti ti-photo" aria-hidden="true"></i>
+        <div class="g-label">Studio</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="contact-left">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">Let's Create<br>Your Space</h2>
+      <div class="divider"></div>
+      <div class="contact-items">
+        <div class="contact-item">
+          <i class="ti ti-map-pin" aria-hidden="true"></i>
+          <div class="ci-text">Studio Address<br><span style="color:#2a1e10; font-weight:500;">Hyderabad, Telangana</span></div>
+        </div>
+        <div class="contact-item">
+          <i class="ti ti-phone" aria-hidden="true"></i>
+          <div class="ci-text">Call Us<br><span style="color:#2a1e10; font-weight:500;">+91 00000 00000</span></div>
+        </div>
+        <div class="contact-item">
+          <i class="ti ti-mail" aria-hidden="true"></i>
+          <div class="ci-text">Email<br><span style="color:#2a1e10; font-weight:500;">hello@dispazio.com</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="contact-form">
+        <input type="text" placeholder="Your Name" />
+        <input type="email" placeholder="Email Address" />
+        <input type="tel" placeholder="Phone Number" />
+        <textarea placeholder="Tell us about your project..."></textarea>
+        <button class="btn-gold" style="align-self: flex-start;">Send Enquiry</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-brand">Di <span>SPAZIO</span> <span style="font-size:10px; color:#7a6040; font-style:normal; font-weight:400; letter-spacing:2px; margin-left:8px;">THE SHAPE OF LUXURY</span></div>
+    <div class="footer-copy">© 2026 Di Spazio. All rights reserved.</div>
+  </footer>
+
+</div>
