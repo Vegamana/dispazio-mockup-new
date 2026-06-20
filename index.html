@@ -1,10 +1,8 @@
 <style>
-  /* Added smooth scrolling for anchor links */
   html { scroll-behavior: smooth; }
-  
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Georgia', serif; }
-  .mock { width: 100%; background: #fff; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  body { font-family: 'Georgia', serif; background-color: #fff; }
+  .mock { width: 100%; background: #fff; border: 0.5px solid #e0cdb5; border-radius: 12px; overflow: hidden; }
 
   /* NAV */
   .nav { background: #fff; border-bottom: 0.5px solid #d4b896; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 68px; position: sticky; top: 0; z-index: 10; }
@@ -16,85 +14,92 @@
   .nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #5a4530; text-decoration: none; font-family: 'Arial', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.2s; }
   .nav-links a:hover { color: #b8924a; }
   .nav-links a.active { color: #b8924a; border-bottom: 1.5px solid #b8924a; padding-bottom: 2px; }
-  .nav-links .visit-btn { border: 1px solid #b8924a; color: #b8924a; padding: 6px 16px; border-radius: 2px; }
+  .nav-links .visit-btn { border: 1px solid #b8924a; color: #b8924a; padding: 6px 16px; border-radius: 2px; transition: all 0.3s ease; }
   .nav-links .visit-btn:hover { background: #b8924a; color: #fff; }
 
   /* HERO */
-  .hero { height: 420px; background: linear-gradient(160deg, #f5ede0 0%, #e8d5bb 50%, #d4b896 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-  .hero-bg-text { position: absolute; font-size: 120px; color: rgba(184,146,74,0.07); font-weight: 700; letter-spacing: 8px; top: 50%; left: 50%; transform: translate(-50%,-50%); white-space: nowrap; font-family: 'Arial', sans-serif; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #b8924a; font-family: 'Arial', sans-serif; margin-bottom: 16px; }
-  .hero-title { font-size: 42px; color: #3a2a1a; font-weight: 400; text-align: center; line-height: 1.2; margin-bottom: 12px; }
-  .hero-title em { color: #b8924a; font-style: italic; }
-  .hero-sub { font-size: 14px; color: #7a6040; text-align: center; letter-spacing: 1px; font-family: 'Arial', sans-serif; margin-bottom: 28px; }
+  .hero { height: 540px; background: linear-gradient(160deg, rgba(255, 255, 255, 0.15) 0%, rgba(42, 30, 16, 0.5) 100%), url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .hero-bg-text { position: absolute; font-size: 150px; color: rgba(255,255,255,0.06); font-weight: 700; letter-spacing: 16px; top: 50%; left: 50%; transform: translate(-50%,-50%); white-space: nowrap; font-family: 'Arial', sans-serif; pointer-events: none; text-transform: uppercase; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #e8d5bb; font-family: 'Arial', sans-serif; margin-bottom: 16px; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+  .hero-title { font-size: 48px; color: #ffffff; font-weight: 400; text-align: center; line-height: 1.25; margin-bottom: 16px; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+  .hero-title em { color: #e8d5bb; font-style: italic; }
+  .hero-sub { font-size: 15px; color: #f5ede0; text-align: center; letter-spacing: 1px; font-family: 'Arial', sans-serif; margin-bottom: 32px; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
   .hero-cta { display: flex; gap: 14px; }
-  .btn-gold { background: #b8924a; color: #fff; border: none; padding: 12px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Arial', sans-serif; }
-  .btn-outline { background: transparent; color: #3a2a1a; border: 1px solid #3a2a1a; padding: 12px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Arial', sans-serif; }
+  .btn-gold { background: #b8924a; color: #fff; border: none; padding: 12px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Arial', sans-serif; transition: background 0.3s; }
+  .btn-gold:hover { background: #9a7635; }
+  .btn-outline { background: transparent; color: #ffffff; border: 1px solid #ffffff; padding: 12px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Arial', sans-serif; transition: all 0.3s; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+  .btn-outline:hover { background: #ffffff; color: #2a1e10; }
 
   /* SECTION COMMON */
-  .section { padding: 60px 48px; }
-  .section-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #b8924a; font-family: 'Arial', sans-serif; margin-bottom: 8px; }
-  .section-title { font-size: 30px; color: #2a1e10; font-weight: 400; margin-bottom: 6px; }
+  .section { padding: 85px 48px; }
+  .section-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #b8924a; font-family: 'Arial', sans-serif; margin-bottom: 8px; font-weight: 600; }
+  .section-title { font-size: 34px; color: #2a1e10; font-weight: 400; margin-bottom: 6px; letter-spacing: -0.5px; }
   .divider { width: 48px; height: 1.5px; background: #b8924a; margin: 16px 0 24px; }
 
   /* ABOUT */
-  .about { background: #faf6f0; display: flex; gap: 48px; align-items: center; }
+  .about { background: #faf6f0; display: flex; gap: 56px; align-items: center; }
   .about-text { flex: 1.2; }
-  .about-text p { font-size: 15px; color: #5a4530; line-height: 1.85; font-family: 'Arial', sans-serif; margin-bottom: 14px; }
+  .about-text p { font-size: 15px; color: #5a4530; line-height: 1.9; font-family: 'Arial', sans-serif; margin-bottom: 16px; }
   .about-text p:last-child { margin-bottom: 0; }
-  .about-visual { flex: 0.8; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .about-card { background: #e8d5bb; border-radius: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 12px; text-align: center; }
-  .about-card .num { font-size: 28px; color: #b8924a; font-weight: 400; }
-  .about-card .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a6040; font-family: 'Arial', sans-serif; margin-top: 4px; }
+  .about-visual { flex: 0.8; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .about-card { background: #e8d5bb; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 16px; text-align: center; }
+  .about-card .num { font-size: 34px; color: #b8924a; font-weight: 400; }
+  .about-card .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a6040; font-family: 'Arial', sans-serif; margin-top: 6px; font-weight: 500; }
 
   /* COLLECTIONS */
   .collections { background: #fff; }
-  .col-tabs { display: flex; gap: 0; margin-bottom: 28px; border-bottom: 1px solid #e0cdb5; }
-  .col-tab { padding: 8px 20px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a6040; font-family: 'Arial', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
-  .col-tab.active { color: #b8924a; border-bottom-color: #b8924a; }
-  .col-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .col-item { background: #f5ede0; border-radius: 2px; overflow: hidden; }
-  .col-img { height: 120px; background: linear-gradient(135deg, #e8d5bb, #d4b896); display: flex; align-items: center; justify-content: center; }
-  .col-img i { font-size: 32px; color: #b8924a; opacity: 0.6; }
-  .col-info { padding: 12px; }
-  .col-info .name { font-size: 13px; color: #2a1e10; font-family: 'Arial', sans-serif; margin-bottom: 4px; }
-  .col-info .cat { font-size: 11px; color: #b8924a; letter-spacing: 1px; text-transform: uppercase; font-family: 'Arial', sans-serif; }
+  .col-tabs { display: flex; gap: 0; margin-bottom: 32px; border-bottom: 1px solid #e0cdb5; }
+  .col-tab { padding: 12px 24px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a6040; font-family: 'Arial', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.3s; }
+  .col-tab:hover { color: #b8924a; }
+  .col-tab.active { color: #b8924a; border-bottom-color: #b8924a; font-weight: 600; }
+  .col-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; min-height: 240px; }
+  .col-item { background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 16px rgba(42,30,16,0.05); transition: all 0.3s ease; border: 0.5px solid #faf6f0; }
+  .col-item:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(42,30,16,0.1); }
+  .col-img { height: 180px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; }
+  .col-info { padding: 16px; background: #fff; }
+  .col-info .name { font-size: 14px; color: #2a1e10; font-family: 'Arial', sans-serif; font-weight: 600; margin-bottom: 4px; }
+  .col-info .cat { font-size: 11px; color: #b8924a; letter-spacing: 1px; text-transform: uppercase; font-family: 'Arial', sans-serif; font-weight: 500; }
 
   /* EXPERIENCE */
-  .experience { background: #2a1e10; padding: 60px 48px; display: flex; align-items: center; gap: 48px; }
+  .experience { background: #2a1e10; padding: 85px 48px; display: flex; align-items: center; gap: 56px; }
   .exp-text { flex: 1; }
   .exp-text .section-label { color: #d4b896; }
   .exp-text .section-title { color: #f5ede0; }
-  .exp-text p { font-size: 14px; color: #c0a070; line-height: 1.85; font-family: 'Arial', sans-serif; margin-bottom: 20px; }
+  .exp-text p { font-size: 14px; color: #c0a070; line-height: 1.9; font-family: 'Arial', sans-serif; margin-bottom: 24px; }
   .exp-text .divider { background: #b8924a; }
-  .video-frame { flex: 1; background: #3a2a1a; border-radius: 2px; height: 200px; display: flex; align-items: center; justify-content: center; border: 1px solid #5a4530; position: relative; overflow: hidden; }
-  .video-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, #3a2a1a 0%, #1a100a 100%); }
-  .video-play { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #b8924a; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
-  .video-play i { font-size: 20px; color: #b8924a; margin-left: 3px; }
-  .video-label { position: absolute; bottom: 14px; left: 16px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #d4b896; font-family: 'Arial', sans-serif; z-index: 1; }
+  .video-frame { flex: 1; height: 280px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-radius: 4px; background: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80') center/cover no-repeat; cursor: pointer; }
+  .video-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(58,42,26,0.3) 0%, rgba(26,16,10,0.6) 100%); transition: background 0.3s; }
+  .video-frame:hover::before { background: linear-gradient(135deg, rgba(58,42,26,0.4) 0%, rgba(26,16,10,0.7) 100%); }
+  .video-play { width: 56px; height: 56px; border-radius: 50%; border: 2px solid #b8924a; background: rgba(42,30,16,0.7); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; transition: transform 0.3s; }
+  .video-frame:hover .video-play { transform: scale(1.1); }
+  .video-play svg { width: 20px; height: 20px; fill: #b8924a; margin-left: 2px; }
+  .video-label { position: absolute; bottom: 14px; left: 16px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #d4b896; font-family: 'Arial', sans-serif; z-index: 1; font-weight: 500; }
 
   /* GALLERY */
   .gallery { background: #f5ede0; }
-  .gallery-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 140px 140px; gap: 10px; }
-  .g-item { background: linear-gradient(135deg, #e8d5bb, #c9a870); border-radius: 2px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .gallery-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 200px 200px; gap: 12px; }
+  .g-item { border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; background-size: cover; background-position: center; transition: transform 0.3s; }
+  .g-item:hover { transform: scale(1.005); }
+  .g-item::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.15); transition: background 0.3s; }
+  .g-item:hover::before { background: rgba(0,0,0,0.3); }
   .g-item.tall { grid-row: span 2; }
-  .g-item i { font-size: 28px; color: rgba(255,255,255,0.5); }
-  .g-item .g-label { position: absolute; bottom: 10px; left: 12px; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.85); font-family: 'Arial', sans-serif; }
+  .g-item .g-label { position: absolute; bottom: 14px; left: 16px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; font-family: 'Arial', sans-serif; z-index: 1; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
 
   /* CONTACT */
-  .contact { background: #fff; display: flex; gap: 48px; align-items: flex-start; }
+  .contact { background: #fff; display: flex; gap: 56px; align-items: flex-start; }
   .contact-left { flex: 1; }
   .contact-right { flex: 1; }
   .contact-right p { font-size: 14px; color: #5a4530; font-family: 'Arial', sans-serif; line-height: 1.8; margin-bottom: 12px; }
-  .contact-items { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
-  .contact-item { display: flex; align-items: flex-start; gap: 12px; }
-  .contact-item i { font-size: 18px; color: #b8924a; margin-top: 2px; }
+  .contact-items { display: flex; flex-direction: column; gap: 18px; margin-top: 16px; }
+  .contact-item { display: flex; align-items: flex-start; gap: 14px; }
+  .contact-item .ci-icon { color: #b8924a; font-size: 16px; }
   .contact-item .ci-text { font-size: 13px; color: #5a4530; font-family: 'Arial', sans-serif; line-height: 1.5; }
-  .contact-form { display: flex; flex-direction: column; gap: 10px; }
-  .contact-form input, .contact-form textarea { border: 0.5px solid #d4b896; padding: 10px 14px; font-size: 13px; font-family: 'Arial', sans-serif; color: #2a1e10; background: #faf6f0; border-radius: 2px; outline: none; }
-  .contact-form textarea { height: 80px; resize: none; }
+  .contact-form { display: flex; flex-direction: column; gap: 12px; }
+  .contact-form input, .contact-form textarea { border: 0.5px solid #d4b896; padding: 12px 14px; font-size: 13px; font-family: 'Arial', sans-serif; color: #2a1e10; background: #faf6f0; border-radius: 2px; outline: none; }
+  .contact-form textarea { height: 100px; resize: none; }
 
   /* FOOTER */
-  .footer { background: #1a100a; padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; }
+  .footer { background: #1a100a; padding: 36px 48px; display: flex; justify-content: space-between; align-items: center; }
   .footer-brand { font-size: 16px; color: #b8924a; font-style: italic; letter-spacing: 1px; }
   .footer-brand span { font-style: normal; font-weight: 700; }
   .footer-copy { font-size: 11px; color: #7a6040; font-family: 'Arial', sans-serif; letter-spacing: 1px; }
@@ -121,7 +126,7 @@
       <a href="#experience">Experience Studio</a>
       <a href="#gallery">Gallery</a>
       <a href="#contact">Contact</a>
-      <a class="visit-btn" href="https://maps.google.com" target="_blank"><i class="ti ti-map-pin" aria-hidden="true"></i> Visit Studio</a>
+      <a class="visit-btn" href="https://maps.google.com" target="_blank">Visit Studio</a>
     </div>
   </nav>
 
@@ -167,41 +172,27 @@
       <h2 class="section-title">Explore Our World</h2>
       <div class="divider"></div>
     </div>
+    
     <div class="col-tabs">
-      <div class="col-tab active">Furniture</div>
-      <div class="col-tab">Artifacts & Decor</div>
+      <div class="col-tab active" id="tab-furniture" onclick="switchTab('furniture')">Furniture</div>
+      <div class="col-tab" id="tab-artifacts" onclick="switchTab('artifacts')">Artifacts & Decor</div>
     </div>
-    <div class="col-grid">
-      <div class="col-item">
-        <div class="col-img"><i class="ti ti-sofa" aria-hidden="true"></i></div>
-        <div class="col-info"><div class="name">Living Room</div><div class="cat">Furniture</div></div>
+    
+    <div class="col-grid" id="collections-grid">
       </div>
-      <div class="col-item">
-        <div class="col-img"><i class="ti ti-coffee" aria-hidden="true"></i></div>
-        <div class="col-info"><div class="name">Dining</div><div class="cat">Furniture</div></div>
-      </div>
-      <div class="col-item">
-        <div class="col-img"><i class="ti ti-bed" aria-hidden="true"></i></div>
-        <div class="col-info"><div class="name">Bedroom</div><div class="cat">Furniture</div></div>
-      </div>
-      <div class="col-item">
-        <div class="col-img"><i class="ti ti-armchair" aria-hidden="true"></i></div>
-        <div class="col-info"><div class="name">Home Office</div><div class="cat">Furniture</div></div>
-      </div>
-    </div>
   </section>
 
   <section class="experience" id="experience">
     <div class="exp-text">
       <div class="section-label">Experience Studio</div>
-      <h2 class="section-title" style="color:#f5ede0;">Step Inside Our World</h2>
+      <h2 class="section-title">Step Inside Our World</h2>
       <div class="divider"></div>
       <p>Our Experience Studio is where imagination becomes tangible. Walk through fully styled living environments, touch the textures, feel the proportions, and understand how each piece inhabits space. Let the studio guide your vision.</p>
       <button class="btn-gold">Watch the Film</button>
     </div>
     <div class="video-frame">
       <div class="video-play">
-        <i class="ti ti-player-play" aria-hidden="true"></i>
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       </div>
       <div class="video-label">Studio Tour — 3:42</div>
     </div>
@@ -214,25 +205,20 @@
       <div class="divider"></div>
     </div>
     <div class="gallery-grid">
-      <div class="g-item tall" style="background: linear-gradient(155deg, #c9a870, #a07840);">
-        <i class="ti ti-photo" aria-hidden="true"></i>
+      <div class="g-item tall" style="background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80');">
         <div class="g-label">Living Spaces</div>
       </div>
-      <div class="g-item" style="background: linear-gradient(135deg, #d4b896, #b8924a);">
-        <i class="ti ti-photo" aria-hidden="true"></i>
-        <div class="g-label">Dining</div>
+      <div class="g-item" style="background-image: url('https://images.unsplash.com/photo-1617806118233-18e1db207f62?auto=format&fit=crop&w=600&q=80');">
+        <div class="g-label">Dining Elegance</div>
       </div>
-      <div class="g-item" style="background: linear-gradient(135deg, #b8924a, #8a6830);">
-        <i class="ti ti-photo" aria-hidden="true"></i>
-        <div class="g-label">Bedroom</div>
+      <div class="g-item" style="background-image: url('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=600&q=80');">
+        <div class="g-label">Bespoke Bedroom</div>
       </div>
-      <div class="g-item" style="background: linear-gradient(135deg, #e8d5bb, #c9a870);">
-        <i class="ti ti-photo" aria-hidden="true"></i>
-        <div class="g-label">Decor</div>
+      <div class="g-item" style="background-image: url('https://images.unsplash.com/photo-1534349762230-e0cadf78f5db?auto=format&fit=crop&w=600&q=80');">
+        <div class="g-label">Artisan Decor</div>
       </div>
-      <div class="g-item" style="background: linear-gradient(135deg, #a07840, #704820);">
-        <i class="ti ti-photo" aria-hidden="true"></i>
-        <div class="g-label">Studio</div>
+      <div class="g-item" style="background-image: url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80');">
+        <div class="g-label">The Studio</div>
       </div>
     </div>
   </section>
@@ -244,15 +230,15 @@
       <div class="divider"></div>
       <div class="contact-items">
         <div class="contact-item">
-          <i class="ti ti-map-pin" aria-hidden="true"></i>
-          <div class="ci-text">Studio Address<br><span style="color:#2a1e10; font-weight:500;">Hyderabad, Telangana</span></div>
+          <span class="ci-icon">📍</span>
+          <div class="ci-text">Studio Address<br><span style="color:#2a1e10; font-weight:500;">Banjara Hills, Road No. 3, Hyderabad, Telangana</span></div>
         </div>
         <div class="contact-item">
-          <i class="ti ti-phone" aria-hidden="true"></i>
-          <div class="ci-text">Call Us<br><span style="color:#2a1e10; font-weight:500;">+91 00000 00000</span></div>
+          <span class="ci-icon">📞</span>
+          <div class="ci-text">Call Us<br><span style="color:#2a1e10; font-weight:500;">+91 98765 43210</span></div>
         </div>
         <div class="contact-item">
-          <i class="ti ti-mail" aria-hidden="true"></i>
+          <span class="ci-icon">✉️</span>
           <div class="ci-text">Email<br><span style="color:#2a1e10; font-weight:500;">hello@dispazio.com</span></div>
         </div>
       </div>
@@ -274,3 +260,48 @@
   </footer>
 
 </div>
+
+<script>
+  const furnitureData = [
+    { name: 'Living Room Sets', cat: 'Furniture', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Sartorial Dining Tables', cat: 'Furniture', img: 'https://images.unsplash.com/photo-1617806118233-18e1db207f62?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Luxury Beds & Suites', cat: 'Furniture', img: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Accent Chairs & Lounges', cat: 'Furniture', img: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=600&q=80' }
+  ];
+
+  const artifactsData = [
+    { name: 'Travertine & Ceramic Vases', cat: 'Artifacts & Decor', img: 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Architectural Pendant Lights', cat: 'Artifacts & Decor', img: 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Hand-blown Glassware', cat: 'Artifacts & Decor', img: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=600&q=80' },
+    { name: 'Marble Table Accents', cat: 'Artifacts & Decor', img: 'https://images.unsplash.com/photo-1606744824163-985d376605aa?auto=format&fit=crop&w=600&q=80' }
+  ];
+
+  function renderGrid(items) {
+    const grid = document.getElementById('collections-grid');
+    grid.innerHTML = items.map(item => `
+      <div class="col-item">
+        <div class="col-img" style="background-image: url('${item.img}')"></div>
+        <div class="col-info">
+          <div class="name">${item.name}</div>
+          <div class="cat">${item.cat}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function switchTab(type) {
+    document.getElementById('tab-furniture').classList.remove('active');
+    document.getElementById('tab-artifacts').classList.remove('active');
+    
+    if (type === 'furniture') {
+      document.getElementById('tab-furniture').classList.add('active');
+      renderGrid(furnitureData);
+    } else {
+      document.getElementById('tab-artifacts').classList.add('active');
+      renderGrid(artifactsData);
+    }
+  }
+
+  // Render initialization
+  renderGrid(furnitureData);
+</script>
