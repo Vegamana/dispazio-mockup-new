@@ -201,7 +201,10 @@
   }
   .cs-inner { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; }
   .cs-top { max-width: 720px; margin-bottom: 4.5rem; }
-  .cs-top .section-eyebrow { color: var(--gold-light); }
+  .cs-top .section-eyebrow {
+    color: var(--gold-light); font-family: var(--display); font-size: clamp(1.3rem, 1.9vw, 1.8rem);
+    font-weight: 300; letter-spacing: 0.14em; margin-bottom: 1.2rem;
+  }
   .cs-heading {
     font-family: var(--display); font-size: clamp(2.1rem, 3.6vw, 3.6rem);
     font-weight: 300; line-height: 1.18; color: var(--cream); margin: 1rem 0 1.6rem;
