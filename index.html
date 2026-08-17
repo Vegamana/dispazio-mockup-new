@@ -234,6 +234,14 @@
   .cs-second-copy:last-child { margin-bottom: 0; }
   .cs-cta-col { display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem; }
   .cs-cta-note { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(250,248,244,0.35); }
+  .cs-btn-outline {
+    display: inline-block; padding: 0.85rem 2.4rem; margin-top: 0.6rem;
+    background: transparent; color: var(--cream); border: 1px solid rgba(250,248,244,0.4);
+    font-family: var(--body); font-size: 0.7rem; font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .cs-btn-outline:hover { background: var(--gold-light); color: var(--dark); border-color: var(--gold-light); }
 
   @media (max-width: 900px) {
     .china-sourcing { padding: 5rem 1.5rem; }
@@ -596,6 +604,7 @@
         <!-- CATALOGUE_URL is configured in one place: see the CATALOGUE_URL constant in the <script> block near the end of this file -->
         <a href="#" id="catalogue-cta" class="btn-primary btn-gold" target="_blank" rel="noopener">Explore The Catalogue</a>
         <span class="cs-cta-note">Opens in a new tab</span>
+        <a href="tel:+918858851989" class="cs-btn-outline">Talk To Our Team</a>
       </div>
     </div>
   </div>
