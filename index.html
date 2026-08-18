@@ -295,14 +295,17 @@
   .video-tour-copy + .video-tour-copy { margin-top: 0.6rem; }
   .video-wrap {
     position: relative; width: 100%; margin-top: 3.2rem;
-    height: 62vh; min-height: 380px; max-height: 760px;
+    height: 100vh; min-height: 100vh;
     overflow: hidden; background: var(--dark); cursor: pointer;
   }
-  .video-wrap video, .video-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .video-wrap .video-scrim { position: absolute; inset: 0; background: rgba(26,23,20,0.28); transition: background 0.25s; }
+  .video-wrap video, .video-wrap img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center center; display: block;
+  }
+  .video-wrap .video-scrim { position: absolute; inset: 0; z-index: 1; background: rgba(26,23,20,0.28); transition: background 0.25s; }
   .video-wrap:hover .video-scrim { background: rgba(26,23,20,0.4); }
   .video-play-btn {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 2;
     width: 84px; height: 84px; border-radius: 50%;
     background: rgba(250,248,244,0.92); display: flex; align-items: center; justify-content: center;
     transition: transform 0.25s, background 0.25s;
@@ -405,7 +408,7 @@
     .collection-grid { grid-template-columns: 1fr 1fr; }
     .products-grid { grid-template-columns: 1fr 1fr; }
     .video-tour { padding: 4rem 0 0; }
-    .video-wrap { height: 46vh; min-height: 260px; margin-top: 2.2rem; }
+    .video-wrap { height: 100vh; height: 100svh; min-height: 100vh; margin-top: 2.2rem; }
     .video-play-btn { width: 62px; height: 62px; }
     .video-play-btn::after { border-top-width: 10px; border-bottom-width: 10px; border-left-width: 16px; }
     .brand { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
@@ -886,25 +889,61 @@
 // This is the single place the "Explore The Catalogue" CTA reads from.
 const CATALOGUE_URL = "#"; // TODO: replace "#" with the real catalogue link
 
-// CONFIG — update the studio walkthrough video link here (e.g. an .mp4 URL or a hosted video link).
+// CONFIG — update the studio walkthrough video link here (e.g. a direct .mp4 URL or a Google Drive share link).
 // This is the single place the "Come, Take A Look Around" video section reads from.
-const VIDEO_URL = ""; // TODO: replace with the real video URL
+// Note: Google Drive links can't be cropped edge-to-edge like a native <video> — Drive serves its own
+// player inside an iframe. For true full-bleed object-fit:cover cropping, host the .mp4 directly instead.
+const VIDEO_URL = "https://drive.google.com/file/d/1pwy1TDwisy9TzEt2OIutt0OlKuSXyDpb/view?usp=sharing"; // TODO: replace with a direct .mp4 URL for full-bleed cropping
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
   // ── China Sourcing catalogue CTA ──
   const catalogueCta = document.getElementById('catalogue-cta');
   if (catalogueCta) catalogueCta.setAttribute('href', CATALOGUE_URL);
 
-  // ── Video tour: click to play ──
+  // ── Video tour: autoplay once the section scrolls into view ──
   const videoWrap = document.getElementById('video-tour-wrap');
   const videoPlayer = document.getElementById('video-tour-player');
-  if (videoWrap && videoPlayer) {
-    videoWrap.addEventListener('click', () => {
-      if (!videoPlayer.src && VIDEO_URL) videoPlayer.src = VIDEO_URL;
-      if (!VIDEO_URL) return;
-      videoPlayer.controls = true;
-      videoPlayer.play();
+  if (videoWrap && videoPlayer && VIDEO_URL) {
+    const startVideoTour = () => {
+      // Google Drive share links ("...drive.google.com/file/d/FILE_ID/view...") can't be used as a
+      // native <video src> — Drive doesn't serve raw bytes for direct playback. Fall back to Drive's
+      // embeddable preview iframe (its own player UI, not a cropped full-bleed video). Note: browsers
+      // may still block unmuted autoplay inside the iframe — Drive's player has no mute parameter, so
+      // a first click may still be required depending on the browser's autoplay policy.
+      const driveMatch = VIDEO_URL.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+      if (driveMatch) {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://drive.google.com/file/d/${driveMatch[1]}/preview?autoplay=1`;
+        iframe.setAttribute('allow', 'autoplay');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
+        videoPlayer.replaceWith(iframe);
+      } else {
+        videoPlayer.src = VIDEO_URL;
+        videoPlayer.muted = true;
+        videoPlayer.loop = true;
+        videoPlayer.play().catch(() => {});
+      }
       videoWrap.classList.add('is-playing');
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startVideoTour();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+      observer.observe(videoWrap);
+    } else {
+      startVideoTour();
+    }
+
+    // Manual fallback: clicking still (re)starts it, in case autoplay was blocked.
+    videoWrap.addEventListener('click', () => {
+      if (!videoWrap.classList.contains('is-playing')) startVideoTour();
     });
   }
 
