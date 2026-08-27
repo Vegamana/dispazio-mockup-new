@@ -200,8 +200,8 @@
     padding: 2rem 1.4rem 1.4rem;
     background: linear-gradient(transparent, rgba(26,23,20,0.72));
   }
-  .cat-name { font-family: var(--display); font-size: 1.4rem; font-weight: 300; color: #FAF8F4; display: block; margin-bottom: 0.2rem; }
-  .cat-sub { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); }
+  .cat-name { font-family: var(--display); font-size: clamp(1.15rem, 4.5vw, 1.4rem); font-weight: 300; color: #FAF8F4; display: block; margin-bottom: 0.2rem; }
+  .cat-sub { font-size: clamp(0.56rem, 2vw, 0.6rem); letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); }
 
   /* COLLECTIONS: grouped placeholder tiles (Furniture / Artifacts & Decor) */
   .collection-group { max-width: var(--container-max); margin: 0 auto 3.2rem; }
@@ -619,15 +619,22 @@
     .nav-search-text { display: none; }
     .nav-search-icon { display: inline-block; }
     .nav-action-hide-mobile { display: none; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-text { padding: 4rem 1.25rem 2.5rem; }
+    /* Hero: on desktop the badge etc. lean on min-height:100vh to fill the first screen, but
+       that same 100vh forced an empty gap below the CTAs once the image collapses to a 70vw-tall
+       strip on mobile — the hero now sizes to its own content (image + text) instead. */
+    .hero { min-height: 0; flex-direction: column; padding-bottom: 2.5rem; }
+    .hero-text { padding: 3.5rem 1.25rem 1rem; }
     .hero-sub { max-width: 320px; }
-    .hero-bg { height: 70vw; }
-    .hero-badge { right: 1rem; bottom: 1rem; padding: 0.8rem 1.1rem; max-width: calc(100vw - 2rem); box-sizing: border-box; }
+    .hero-bg { height: clamp(210px, 62vw, 300px); }
+    .hero-badge { position: static; margin: 1.5rem auto 0; width: fit-content; box-sizing: border-box; }
     .hero-badge-val { font-size: 0.95rem; }
+    /* Collection tiles: 2-up still reads fine at tablet width */
     .collection-grid .cat-card { flex-basis: calc(50% - 0.7rem); max-width: none; }
     /* 4 tiles: 2-per-row fits evenly at tablet width without stranding a lone tile */
     .products-grid { grid-template-columns: repeat(2, 1fr); max-width: 640px; margin: 0 auto; }
+    /* 3 equal columns get squeezed at tablet width; 2-up gives each quote room to breathe */
+    .testi-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-col a { display: inline-block; padding: 0.15rem 0; }
   }
   @media (max-width: 600px) {
     /* narrower still: 2-up gets cramped, so stack to a single column */
@@ -640,6 +647,11 @@
     #search-overlay { padding-top: 12vh !important; }
     .products-header { flex-wrap: wrap; row-gap: 1.2rem; }
     .filter-tabs { flex-wrap: wrap; }
+  }
+  @media (max-width: 560px) {
+    /* Phone width: 2-up collection tiles leave ~150px of image with almost no room for the
+       name/subtitle overlay, so they wrap awkwardly — stack to one full-width tile per row. */
+    .collection-grid .cat-card { flex-basis: 100%; max-width: 420px; margin: 0 auto; }
   }
 </style>
 </head>
