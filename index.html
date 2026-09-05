@@ -71,7 +71,7 @@
   .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; flex-shrink: 0; }
   .nav-links > li { flex-shrink: 0; }
   .nav-links a {
-    font-size: 1.125rem; font-weight: 500; line-height: 1.4; letter-spacing: 0.015em;
+    font-size: 1rem; font-weight: 500; line-height: 1.4; letter-spacing: 0.015em;
     text-transform: uppercase; color: var(--dark); text-decoration: none; transition: color 0.2s;
     white-space: nowrap;
   }
@@ -110,30 +110,28 @@
   .nav-item-dropdown:focus-within .nav-dropdown-menu,
   .nav-item-dropdown.is-open .nav-dropdown-menu { transform: translateY(0); }
   .nav-dropdown-menu a {
-    display: block; padding: 0.85rem 1.6rem; font-size: 1rem; font-weight: 400; line-height: 1.3;
+    display: block; padding: 0.85rem 1.6rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.3;
     letter-spacing: 0.04em; text-transform: uppercase; color: var(--dark);
     text-decoration: none; white-space: nowrap; transition: color 0.2s;
   }
   .nav-dropdown-menu a:hover { color: var(--gold); }
 
   .nav-actions { display: flex; gap: 1.4rem; align-items: center; flex-shrink: 0; }
-  .nav-actions a { font-size: 1.125rem; font-weight: 500; line-height: 1.4; letter-spacing: 0.015em; text-transform: uppercase; color: var(--dark); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
+  .nav-actions a { font-size: 1rem; font-weight: 500; line-height: 1.4; letter-spacing: 0.015em; text-transform: uppercase; color: var(--dark); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
   .nav-actions a:hover { color: var(--gold); }
 
   /* Tablet-width desktop nav (still above the 900px hamburger cutoff, but
-     narrower than the container-max): rather than jump between a couple of
-     fixed sizes — which left dead zones where a tier's own numbers no
-     longer fit its own tier — font-size/gaps/padding scale continuously
-     with viewport width between 901px (the hamburger cutover) and 1240px
-     (container-max, beyond which the row no longer grows anyway). This
-     guarantees a fit at every width in between, not just at the sampled
-     breakpoints. */
-  .nav-inner, .nav-links, .nav-links a, .nav-actions, .nav-actions a {
+     narrower than the container-max): gaps/padding scale continuously with
+     viewport width between 901px (the hamburger cutover) and 1240px
+     (container-max, beyond which the row no longer grows anyway), so
+     there's no dead zone where a fixed breakpoint's own numbers stopped
+     fitting. Font-size is a flat 16px at every width now (see .nav-links a
+     / .nav-actions a above) — no scaling needed there any more. */
+  .nav-inner, .nav-links, .nav-actions {
     --nav-fluid: calc((100vw - 901px) / 339px);
   }
   .nav-inner { padding-left: clamp(0.6rem, calc(0.6rem + 2.4rem * var(--nav-fluid)), 3rem); padding-right: clamp(0.6rem, calc(0.6rem + 2.4rem * var(--nav-fluid)), 3rem); gap: clamp(0.5rem, calc(0.5rem + 1rem * var(--nav-fluid)), 1.5rem); }
   .nav-links { gap: clamp(0.4rem, calc(0.4rem + 1.6rem * var(--nav-fluid)), 2rem); }
-  .nav-links a, .nav-actions a { font-size: clamp(1rem, calc(1rem + 0.125rem * var(--nav-fluid)), 1.125rem); }
   .nav-actions { gap: clamp(0.4rem, calc(0.4rem + 1rem * var(--nav-fluid)), 1.4rem); }
 
   /* HAMBURGER (mobile only — hidden on desktop) */
@@ -164,7 +162,7 @@
   .mobile-menu-links { list-style: none; padding: 0.5rem 1.6rem; }
   .mobile-menu-links li { border-bottom: 1px solid var(--soft-line); }
   .mobile-menu-links a {
-    display: block; padding: 1.05rem 0; font-size: 1.0625rem; font-weight: 500; line-height: 1.3;
+    display: block; padding: 1.05rem 0; font-size: 1rem; font-weight: 500; line-height: 1.3;
     letter-spacing: 0.01em; text-transform: uppercase; color: var(--dark); text-decoration: none;
   }
 
@@ -172,7 +170,7 @@
      available here, so it opens on tap instead. */
   .mobile-menu-dropdown-trigger {
     display: flex; align-items: center; justify-content: space-between; width: 100%;
-    padding: 1.05rem 0; font-family: inherit; font-size: 1.0625rem; font-weight: 500; line-height: 1.3;
+    padding: 1.05rem 0; font-family: inherit; font-size: 1rem; font-weight: 500; line-height: 1.3;
     letter-spacing: 0.01em; text-transform: uppercase; color: var(--dark);
     background: none; border: none; cursor: pointer;
   }
@@ -183,7 +181,7 @@
   }
   .mobile-menu-item-dropdown.is-open .mobile-menu-submenu { max-height: 14rem; }
   .mobile-menu-submenu li { border-bottom: none; }
-  .mobile-menu-submenu a { padding: 0.75rem 0 0.75rem 1rem; font-size: 1rem; font-weight: 400; color: var(--warm-mid); }
+  .mobile-menu-submenu a { padding: 0.75rem 0 0.75rem 1rem; font-size: 0.9375rem; font-weight: 400; color: var(--warm-mid); }
   .mobile-menu-divider { height: 1px; background: var(--soft-line); margin: 0.4rem 1.6rem; }
 
   /* HERO */
