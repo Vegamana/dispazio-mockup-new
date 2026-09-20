@@ -51,6 +51,13 @@
   @media (max-width: 900px) {
     :root { --space-section-y: 4.5rem; --space-section-x: 1.5rem; --space-header-gap: 2.5rem; }
   }
+  /* Phone tier: two stacked 4.5rem sections left ~144px of dead air between them. */
+  @media (max-width: 600px) {
+    :root { --space-section-y: 3.25rem; --space-header-gap: 2rem; }
+  }
+  @media (max-width: 359px) {
+    :root { --space-section-x: 1.25rem; }
+  }
   html { scroll-behavior: smooth; }
   body { background: var(--cream); color: var(--dark); font-family: var(--body); font-weight: 300; line-height: 1.6; overflow-x: hidden; }
 
@@ -139,7 +146,10 @@
   /* HAMBURGER (mobile only — hidden on desktop) */
   .hamburger-btn {
     display: none; flex-direction: column; justify-content: center; gap: 5px;
-    width: 26px; height: 26px; background: none; border: none; cursor: pointer; padding: 0; flex-shrink: 0;
+    /* 44px tap target; the 9px padding keeps the bars the same 26px size, and the -9px margin
+       keeps them at the same left edge as before. */
+    width: 44px; height: 44px; padding: 9px; margin-left: -9px; box-sizing: border-box;
+    background: none; border: none; cursor: pointer; flex-shrink: 0;
   }
   .hamburger-btn span { display: block; width: 100%; height: 1px; background: var(--dark); transition: transform 0.25s ease, opacity 0.2s ease; }
   .hamburger-btn.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
@@ -151,16 +161,19 @@
     display: none; position: fixed; inset: 0; z-index: 199; background: rgba(26,23,20,0.45);
   }
   .mobile-menu {
-    position: fixed; top: 0; left: -320px; width: 300px; max-width: 82vw; height: 100vh;
+    position: fixed; top: 0; left: -320px; width: 300px; max-width: 82vw; height: 100vh; height: 100dvh;
     z-index: 200; background: var(--cream); transition: left 0.35s cubic-bezier(0.4,0,0.2,1);
     overflow-y: auto; box-shadow: 4px 0 40px rgba(26,23,20,0.18);
   }
   .mobile-menu-top {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1.4rem 1.6rem; border-bottom: 1px solid var(--soft-line);
+    padding: 1rem 1.6rem; border-bottom: 1px solid var(--soft-line);
   }
   .mobile-menu-brand { font-family: var(--display); font-size: 1.2rem; font-style: italic; color: var(--dark); }
-  .mobile-menu-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--warm-mid); }
+  .mobile-menu-close {
+    display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-right: -10px;
+    background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--warm-mid);
+  }
   .mobile-menu-links { list-style: none; padding: 0.5rem 1.6rem; }
   .mobile-menu-links li { border-bottom: 1px solid var(--soft-line); }
   .mobile-menu-links a {
@@ -680,11 +693,12 @@
   }
   @media (max-width: 600px) {
     .footer-cta { padding-top: 4rem; padding-bottom: 3rem; }
-    .footer-cta-actions { flex-direction: column; gap: 1rem; }
+    .footer-cta-actions { flex-direction: column; gap: 0; }
     .footer-cta-sep { display: none; }
     .footer-nav { padding-top: 3rem; padding-bottom: 2rem; }
-    .footer-nav-grid { grid-template-columns: 1fr; gap: 2.2rem; }
-    .footer-brand-col { grid-column: auto; }
+    /* Two link columns side by side (brand block spans both) instead of one 1,000px-tall stack */
+    .footer-nav-grid { grid-template-columns: 1fr 1fr; gap: 2rem 1.25rem; }
+    .footer-brand-col { grid-column: 1 / -1; }
     .footer-bottom { padding: 1.4rem var(--space-section-x); }
   }
 
@@ -694,19 +708,30 @@
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
-    .nav-inner { padding: 1rem 1.5rem; }
+    /* 7.5px + 44px hamburger + 7.5px = the same 59px inner height as the old 16px + 27px logo + 16px */
+    .nav-inner { padding: 0.46875rem var(--space-section-x); }
     .nav-links { display: none; }
     .hamburger-btn { display: flex; }
+    /* Hamburger is 44px wide (tap target) with a -9px margin, so it occupies 35px of layout;
+       reserve the same 35px on the right so the logo stays optically centred. */
+    .nav-actions { min-width: 35px; }
     .nav-logo img { height: 27px; }
+    .nav-logo { padding: 9px 0; margin: -9px 0; } /* 45px tap area, zero layout change */
     .nav-action-hide-mobile { display: none; }
+    /* Anchor jumps would otherwise land under the fixed 60px header */
+    section[id], footer[id], .collection-group[id] { scroll-margin-top: 60px; }
+    h1, h2, h3 { text-wrap: balance; } /* no one-word widows in stacked headings */
     /* Hero: on desktop the badge etc. lean on min-height:100vh to fill the first screen, but
        that same 100vh forced an empty gap below the CTAs once the image collapses to a 70vw-tall
-       strip on mobile — the hero now sizes to its own content (image + text) instead. */
-    .hero { min-height: 0; flex-direction: column; padding-bottom: 2.5rem; }
+       strip on mobile — the hero now sizes to its own content (image + text) instead.
+       The text block starts below that image strip (--hero-img-h) rather than overlapping it,
+       and shares the section left edge (--space-section-x). */
+    .hero { --hero-img-h: clamp(210px, 62vw, 300px); min-height: 0; flex-direction: column; padding-bottom: 2.5rem; }
     .hero-inner { padding: 0; }
-    .hero-text { max-width: none; padding: 3.5rem 1.25rem 1rem; }
+    .hero-text { max-width: none; padding: calc(var(--hero-img-h) - 68px + 1.75rem) 0 1rem; }
     .hero-sub { max-width: 320px; }
-    .hero-bg { height: clamp(210px, 62vw, 300px); }
+    .hero-bg { height: var(--hero-img-h); }
+    .hero-scrim { bottom: auto; height: var(--hero-img-h); }
     .hero-badge { position: static; margin: 1.5rem auto 0; width: fit-content; box-sizing: border-box; }
     .hero-badge-val { font-size: 0.95rem; }
     /* Collection tiles: 2-up still reads fine at tablet width */
@@ -715,22 +740,55 @@
     .products-grid { grid-template-columns: repeat(2, 1fr); max-width: 640px; margin: 0 auto; }
     /* 3 equal columns get squeezed at tablet width; 2-up gives each quote room to breathe */
     .testi-grid { grid-template-columns: repeat(2, 1fr); }
-    .footer-col a { display: inline-block; padding: 0.15rem 0; }
+    p { text-wrap: pretty; }
+    /* Type floor: the 9–10.4px labels were unreadable on touch screens (desktop is untouched) */
+    .hero-eyebrow, .hero-badge-label, .marquee-track span, .section-eyebrow, .video-tour-eyebrow, .cat-sub,
+    .testi-author, .socials-handle, .socials-note, .cs-cta-note, .footer-col-title, .footer-bottom { font-size: 0.6875rem; }
+    /* Buttons / links: comfortable tap height + readable label size */
+    .btn-primary, .cs-btn-outline, .find-us-whatsapp { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; font-size: 0.75rem; }
+    .btn-ghost, .footer-cta-link { min-height: 44px; }
+    .footer-cta-link { display: inline-flex; align-items: center; }
+    .socials-handle { display: flex; align-items: center; min-height: 44px; padding-bottom: 0; }
+    /* 44px-tall link rows; inline-flex (not inline-block) so the Connect icons keep their gap */
+    .footer-col a { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.875rem; }
+    .footer-col li { margin-bottom: 0; }
+    /* Stacked, the text now comes first in every image/text section (New Home's HTML has the image first) */
+    .new-home-img-wrap { order: 2; }
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    /* Tablet: full-width 1:1 images ran ~720px tall — 4:3 keeps them in proportion */
+    .kids-img-wrap, .new-home-img-wrap, .es-img-wrap { aspect-ratio: 4/3; }
+    /* 3 quotes in a 2-col grid stranded the last one; let it span both columns */
+    .testi-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
   }
   @media (max-width: 600px) {
-    /* narrower still: 2-up gets cramped, so stack to a single column */
-    .products-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-    .video-tour-content { padding: 3.5rem 1.5rem; }
+    /* Most Sold tiles are image-only, so 2x2 reads far better than four ~455px-tall singles */
+    .products-grid { gap: 0.9rem; max-width: none; }
+    /* Collections: 2-up with a compact overlay (was one 3:4 card per row, ~3,900px of scrolling).
+       An odd last card (Artifacts & Decor has 3) spans the full row in landscape. */
+    .collection-grid { gap: 0.8rem; }
+    .collection-grid .cat-card { flex-basis: calc(50% - 0.4rem); }
+    .collection-grid .cat-card:last-child:nth-child(odd) { flex-basis: 100%; aspect-ratio: 4/3; }
+    .cat-overlay { padding: 1.4rem 0.8rem 0.8rem; }
+    .cat-name { font-size: 1rem; line-height: 1.2; }
+    .cat-sub { font-size: 0.6875rem; letter-spacing: 0.06em; line-height: 1.4; }
+    .video-tour-content { padding: 3.5rem var(--space-section-x); }
+    .cs-top { margin-bottom: 2.75rem; }
+    .cs-divider { margin: 2.75rem 0; }
     .testi-grid { grid-template-columns: 1fr; }
-    .find-us { grid-template-columns: 1fr; }
+    /* .find-us is a <section> (section padding) whose info column pads again — drop the outer one
+       so text lines up with every other section and the map runs edge to edge. */
+    .find-us { grid-template-columns: 1fr; padding: 0; }
     .find-us-map { min-height: 280px; }
+    .find-us-actions { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+    .find-us-actions .btn-primary, .find-us-actions .find-us-whatsapp, .find-us-actions .btn-ghost { justify-content: center; text-align: center; }
     .products-header { flex-wrap: wrap; row-gap: 1.2rem; }
     .filter-tabs { flex-wrap: wrap; }
   }
-  @media (max-width: 560px) {
-    /* Phone width: 2-up collection tiles leave ~150px of image with almost no room for the
-       name/subtitle overlay, so they wrap awkwardly — stack to one full-width tile per row. */
-    .collection-grid .cat-card { flex-basis: 100%; max-width: 420px; margin: 0 auto; }
+  @media (max-width: 359px) {
+    /* Very narrow phones: two ~130px tiles can't hold the overlay text, so go one per row */
+    .collection-grid .cat-card,
+    .collection-grid .cat-card:last-child:nth-child(odd) { flex-basis: 100%; aspect-ratio: 5/4; }
   }
 </style>
 </head>
@@ -958,7 +1016,7 @@
     <!-- VIDEO_URL is configured in one place: see the VIDEO_URL constant in the <script> block near the end
          of this file. Until it points to a real, directly-playable .mp4, the 4 stills above cross-fade as
          an ambient stand-in — dropping in a real video URL fades this <video> in over them automatically. -->
-    <video id="video-tour-player" autoplay muted loop playsinline poster="" preload="none"></video>
+    <video id="video-tour-player" autoplay muted loop playsinline preload="none"></video>
   </div>
   <div class="video-tour-scrim"></div>
   <div class="video-tour-content">
@@ -1287,11 +1345,26 @@ document.addEventListener('DOMContentLoaded', function() {
   const isDirectVideoFile = /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(VIDEO_URL || '');
   if (videoTourSection && videoPlayer && isDirectVideoFile) {
     const startVideoTour = () => {
-      videoPlayer.src = VIDEO_URL;
+      // Only fade the video in once frames are actually playing — until then (slow connection,
+      // large file, autoplay refused) the cross-fading stills underneath stay visible.
+      videoPlayer.addEventListener('playing', () => videoPlayer.classList.add('is-active'), { once: true });
+      videoPlayer.addEventListener('error', () => console.warn('Walkthrough video failed to load:', VIDEO_URL));
+      videoPlayer.setAttribute('muted', '');
+      videoPlayer.setAttribute('playsinline', '');
       videoPlayer.muted = true;
       videoPlayer.loop = true;
-      videoPlayer.play().catch(() => {});
-      videoPlayer.classList.add('is-active');
+      videoPlayer.src = VIDEO_URL;
+      videoPlayer.load(); // preload="none" + late src: Safari needs an explicit load()
+      const tryPlay = () => videoPlayer.play();
+      tryPlay().catch(() => {
+        // Autoplay refused (iOS Low Power Mode, data saver, strict browser policy).
+        // Scrolling doesn't count as a user gesture, so retry on the first real tap/click/key.
+        const retry = () => {
+          ['touchend', 'click', 'keydown'].forEach(ev => document.removeEventListener(ev, retry));
+          tryPlay().catch(() => {});
+        };
+        ['touchend', 'click', 'keydown'].forEach(ev => document.addEventListener(ev, retry, { passive: true }));
+      });
     };
 
     if ('IntersectionObserver' in window) {
@@ -1359,6 +1432,7 @@ document.addEventListener('DOMContentLoaded', function() {
   hamburgerBtn.addEventListener('click', openMobileMenu);
   document.getElementById('mobile-menu-close').addEventListener('click', closeMobileMenu);
   mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
 
   // Close the drawer when any link inside it is tapped (smooth-scroll is handled by the generic handler below)
   mobileMenu.querySelectorAll('a').forEach(a => {
