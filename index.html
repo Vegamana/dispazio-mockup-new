@@ -64,10 +64,12 @@
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
     max-width: var(--container-max); margin: 0 auto;
-    padding: 1.05rem 3rem;
+    /* Vertical padding trimmed from 1.05rem to 0.925rem (-2px each side) to exactly offset
+       the logo's +4px height bump below, so the header's total height is unchanged. */
+    padding: 0.925rem 3rem;
   }
   .nav-logo { flex-shrink: 0; }
-  .nav-logo img { height: 36px; display: block; }
+  .nav-logo img { height: 40px; display: block; } /* one size step up from 36px; width follows automatically (aspect-ratio preserved, no explicit width set) */
   .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; flex-shrink: 0; }
   .nav-links > li { flex-shrink: 0; }
   .nav-links a {
@@ -130,9 +132,9 @@
   .nav-inner, .nav-links, .nav-actions {
     --nav-fluid: calc((100vw - 901px) / 339px);
   }
-  .nav-inner { padding-left: clamp(0.6rem, calc(0.6rem + 2.4rem * var(--nav-fluid)), 3rem); padding-right: clamp(0.6rem, calc(0.6rem + 2.4rem * var(--nav-fluid)), 3rem); gap: clamp(0.5rem, calc(0.5rem + 1rem * var(--nav-fluid)), 1.5rem); }
-  .nav-links { gap: clamp(0.4rem, calc(0.4rem + 1.6rem * var(--nav-fluid)), 2rem); }
-  .nav-actions { gap: clamp(0.4rem, calc(0.4rem + 1rem * var(--nav-fluid)), 1.4rem); }
+  .nav-inner { padding-left: clamp(0.45rem, calc(0.45rem + 2.55rem * var(--nav-fluid)), 3rem); padding-right: clamp(0.45rem, calc(0.45rem + 2.55rem * var(--nav-fluid)), 3rem); gap: clamp(0.3rem, calc(0.3rem + 1.2rem * var(--nav-fluid)), 1.5rem); }
+  .nav-links { gap: clamp(0.3rem, calc(0.3rem + 1.7rem * var(--nav-fluid)), 2rem); }
+  .nav-actions { gap: clamp(0.3rem, calc(0.3rem + 1.1rem * var(--nav-fluid)), 1.4rem); }
 
   /* HAMBURGER (mobile only — hidden on desktop) */
   .hamburger-btn {
