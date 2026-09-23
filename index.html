@@ -201,10 +201,11 @@
   .hero-bg { position: absolute; inset: 0; z-index: 0; }
   .hero-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .hero-scrim {
+    /* Dark overlay removed on request — the hero photo now shows at its
+       natural brightness/color. Element kept (position/inset) in case a
+       future design needs it again; it currently renders nothing. */
     position: absolute; inset: 0;
-    /* Neutral (not navy) — same falloff/strength as before, just recolored to black so the
-       hero photo keeps its natural color instead of getting a blue cast. */
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.62) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.15) 100%);
+    background: none;
   }
   /* Wraps hero-text with the same container-max/space-section-x rhythm the rest of the
      site's sections use, so the left edge of the headline lines up with the site grid
