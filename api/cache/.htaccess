@@ -1,0 +1,4 @@
+# This folder only ever holds a cached copy of already-public Instagram post
+# data (no credentials), but there's no reason for it to be browsable or
+# directly requestable either.
+Require all denied

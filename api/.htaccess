@@ -1,0 +1,7 @@
+# Defense in depth: if PHP execution is ever misconfigured on the host,
+# config.php must never be servable as plain text. Normal operation (PHP
+# executing it via `require` from instagram.php) is unaffected by this — it
+# only blocks direct HTTP requests to the file itself.
+<FilesMatch "^config\.php$">
+    Require all denied
+</FilesMatch>

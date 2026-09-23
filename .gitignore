@@ -1,0 +1,5 @@
+# Instagram integration — the real access token and the runtime cache file
+# must never reach GitHub. config.example.php (no real values) is committed
+# as the template; copy it to config.php on the server and fill it in there.
+api/config.php
+api/cache/*.json

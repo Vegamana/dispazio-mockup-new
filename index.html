@@ -590,6 +590,7 @@
     scrollbar-width: none;              /* Firefox */
     -ms-overflow-style: none;           /* legacy Edge */
     cursor: grab;
+    transition: opacity 0.25s ease; /* subtle crossfade when the live feed swaps in */
   }
   .socials-track::-webkit-scrollbar { display: none; }
   .socials-track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
@@ -619,6 +620,22 @@
   }
   .socials-post:hover img { transform: scale(1.04); }
   .socials-post:hover::after { opacity: 1; }
+  /* Loading state for the live Instagram feed — same card shape/background
+     as a real post, just a slow neutral shimmer instead of an image. Only
+     used as a safety net (see the JS below); the existing static posts
+     already fill this section instantly, so visitors will rarely see this. */
+  .socials-post.is-loading {
+    background: linear-gradient(100deg, #EDE8DE 40%, #E3DACB 50%, #EDE8DE 60%);
+    background-size: 250% 100%;
+    animation: socialsShimmer 1.8s ease-in-out infinite;
+  }
+  @keyframes socialsShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -50% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .socials-post.is-loading { animation: none; }
+  }
 
   .socials-note {
     margin-top: 1.4rem; font-size: 0.62rem; letter-spacing: 0.18em;
@@ -1616,6 +1633,80 @@ document.addEventListener('DOMContentLoaded', function() {
       isDown = false;
       socialsTrack.classList.remove('is-dragging');
     });
+
+    // ── Live Instagram feed ──
+    // The markup already sitting inside #socials-track (rendered server-side,
+    // above) is real, working fallback content — not a placeholder — so the
+    // section is never empty, even if this fetch is slow, blocked, or this
+    // is the static GitHub Pages preview where /api/instagram.php doesn't
+    // exist. We only touch the DOM at all once fresh posts actually arrive.
+    (() => {
+      const buildPostEl = (post, eager) => {
+        const item = document.createElement('div');
+        item.className = 'socials-item';
+
+        const handle = document.createElement('a');
+        handle.className = 'socials-handle';
+        handle.href = 'https://www.instagram.com/dispazio';
+        handle.target = '_blank';
+        handle.rel = 'noopener noreferrer';
+        handle.textContent = '@dispazio';
+
+        const isReel = post.media_type === 'VIDEO' && /\/reel\//.test(post.permalink || '');
+        const link = document.createElement('a');
+        link.className = 'socials-post';
+        link.href = post.permalink;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', post.caption ? post.caption.slice(0, 120) : `Open Dispazio ${isReel ? 'reel' : 'post'} on Instagram`);
+
+        const img = document.createElement('img');
+        img.src = post.image;
+        img.alt = post.caption ? post.caption.slice(0, 140) : 'Dispazio on Instagram';
+        if (!eager) img.loading = 'lazy';
+
+        link.appendChild(img);
+        item.appendChild(handle);
+        item.appendChild(link);
+        return item;
+      };
+
+      // Safety net only: if this section ever ships with no static fallback
+      // markup inside it, show a shimmering placeholder row instead of
+      // nothing while the live feed loads.
+      if (!socialsTrack.children.length) {
+        for (let i = 0; i < 6; i++) {
+          const item = document.createElement('div');
+          item.className = 'socials-item';
+          const post = document.createElement('div');
+          post.className = 'socials-post is-loading';
+          item.appendChild(post);
+          socialsTrack.appendChild(item);
+        }
+      }
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+
+      fetch('/api/instagram.php', { signal: controller.signal })
+        .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Instagram feed request failed'))))
+        .then((data) => {
+          const posts = Array.isArray(data && data.posts) ? data.posts : [];
+          if (!posts.length) return; // keep whatever's already showing (static fallback or the skeleton above)
+          const frag = document.createDocumentFragment();
+          posts.forEach((post, i) => frag.appendChild(buildPostEl(post, i < 2)));
+          socialsTrack.style.opacity = '0';
+          setTimeout(() => {
+            socialsTrack.replaceChildren(frag);
+            socialsTrack.style.opacity = '1';
+          }, 200);
+        })
+        .catch(() => {
+          // Network error, timeout, missing endpoint (e.g. the GitHub Pages
+          // preview, which doesn't run PHP) — leave the existing content as-is.
+        })
+        .finally(() => clearTimeout(timeout));
+    })();
   }
 });
 </script>
