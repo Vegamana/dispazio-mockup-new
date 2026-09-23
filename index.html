@@ -653,7 +653,7 @@
   }
 
   /* FIND US / MAP */
-  .find-us { background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; }
+  .find-us { background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; scroll-margin-top: 80px; }
   .find-us-info { padding: var(--space-section-y) var(--space-section-x); display: flex; flex-direction: column; justify-content: center; }
   .find-us-address { font-family: var(--display); font-size: 1.3rem; font-weight: 400; color: var(--dark); line-height: 1.4; margin: 1.1rem 0 0.3rem; }
   .find-us-hours { font-size: 0.85rem; color: var(--warm-mid); margin-bottom: 2.2rem; }
@@ -874,7 +874,7 @@
       <p class="hero-sub">Imported furniture, decor and objects, thoughtfully chosen for modern Indian homes.</p>
       <div class="hero-cta-row">
         <a href="https://drive.google.com/drive/folders/1E7nRFRLjokq5BjUFl6O_RPfVkzYFY3Zb?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn-primary">Explore Collection</a>
-        <button class="btn-ghost" onclick="document.getElementById('store').scrollIntoView({behavior:'smooth'})">Visit Our Studio</button>
+        <a href="#find-us" class="btn-ghost">Visit Our Studio</a>
       </div>
     </div>
   </div>
