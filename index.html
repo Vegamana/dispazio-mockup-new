@@ -435,7 +435,16 @@
   .pg-overlay.is-open { display: flex; }
   .pg-overlay.is-visible { opacity: 1; }
   .pg-modal {
-    position: relative; width: 100%; max-width: 1160px; max-height: 90vh;
+    position: relative; width: 100%; max-width: 1160px;
+    /* Fixed, not max-height: with only a ceiling, CSS Grid's default row-stretch
+       sized the modal off whichever side had more content (in practice
+       .pg-panel — .pg-visual's height:100% chain has nothing concrete of its
+       own to resolve against), so a product with more thumbnails or a longer
+       description rendered a taller modal. A real fixed height makes every
+       product's modal identical regardless of image/content differences;
+       .pg-panel's existing overflow-y:auto absorbs anything that's too tall
+       for it rather than growing the modal. */
+    height: min(680px, 90vh);
     background: var(--cream); overflow: hidden;
     display: grid; grid-template-columns: 58fr 42fr; /* same image/text ratio used by the other split sections (Experience Studio, Kids Corner, New Home) */
     box-shadow: 0 30px 80px rgba(26,23,20,0.35);
@@ -480,7 +489,7 @@
 
   @media (max-width: 900px) {
     .pg-overlay { padding: 2.5vh 2.5vw; }
-    .pg-modal { grid-template-columns: 1fr; grid-template-rows: auto 1fr; max-height: 95vh; }
+    .pg-modal { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: min(640px, 95vh); }
     .pg-visual { aspect-ratio: 4/3; }
     .pg-close { width: 44px; height: 44px; }
     .pg-nav { width: 44px; height: 44px; }
