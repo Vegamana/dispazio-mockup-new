@@ -415,6 +415,82 @@
   .product-add { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--warm-mid); background: none; border: none; cursor: pointer; font-family: var(--body); transition: color 0.2s; }
   .product-add:hover { color: var(--gold); }
 
+  /* MOST SOLD — product gallery lightbox.
+     Same show/hide trick as .nav-dropdown above (opacity + visibility, both
+     transitioned) rather than toggling `display`, so the fade/scale-in can
+     actually animate. */
+  .pg-overlay {
+    /* display:none (toggled via JS, not a CSS transition) rather than the
+       opacity+visibility trick used elsewhere on the site (e.g. the nav
+       dropdown) — that combination made focusing the close button on open
+       unreliable here, since visibility transitions delay when a nested
+       element actually becomes focusable. Opacity still fades normally. */
+    display: none;
+    position: fixed; inset: 0; z-index: 600;
+    background: rgba(26,23,20,0.55); /* --dark at 55% — same rgb triplet used for every other scrim/backdrop on the site */
+    align-items: center; justify-content: center;
+    padding: 5vh 5vw; box-sizing: border-box;
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .pg-overlay.is-open { display: flex; }
+  .pg-overlay.is-visible { opacity: 1; }
+  .pg-modal {
+    position: relative; width: 100%; max-width: 1160px; max-height: 90vh;
+    background: var(--cream); overflow: hidden;
+    display: grid; grid-template-columns: 58fr 42fr; /* same image/text ratio used by the other split sections (Experience Studio, Kids Corner, New Home) */
+    box-shadow: 0 30px 80px rgba(26,23,20,0.35);
+    opacity: 0; transform: scale(0.96);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .pg-overlay.is-visible .pg-modal { opacity: 1; transform: scale(1); }
+  .pg-close {
+    position: absolute; top: 0.9rem; right: 0.9rem; z-index: 2;
+    display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+    background: rgba(250,248,244,0.9); border: none; cursor: pointer;
+    font-size: 1.1rem; color: var(--dark); transition: color 0.2s, background 0.2s;
+  }
+  .pg-close:hover { color: var(--gold); background: var(--cream); }
+  .pg-visual { position: relative; background: #f0ede7; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .pg-stage { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .pg-img { max-width: 88%; max-height: 88%; width: auto; height: auto; object-fit: contain; display: block; transition: opacity 0.25s ease; }
+  .pg-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+    display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+    background: rgba(250,248,244,0.85); border: none; cursor: pointer;
+    font-family: var(--display); font-size: 1.4rem; color: var(--dark); transition: color 0.2s, background 0.2s;
+  }
+  .pg-nav:hover { color: var(--gold); background: var(--cream); }
+  .pg-prev { left: 1rem; }
+  .pg-next { right: 1rem; }
+  .pg-panel { padding: 3rem 2.6rem; display: flex; flex-direction: column; overflow-y: auto; }
+  .pg-name { font-family: var(--display); font-size: 1.7rem; font-weight: 400; color: var(--dark); line-height: 1.2; margin: 0.5rem 0 0.9rem; }
+  .pg-desc { font-size: 0.88rem; color: rgba(26,23,20,0.65); line-height: 1.8; margin-bottom: 2rem; }
+  .pg-thumbs { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: auto; }
+  .pg-thumb {
+    width: 64px; height: 64px; padding: 0; border: none; cursor: pointer;
+    background: #f0ede7; opacity: 0.55; transition: opacity 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 0 0 1px transparent;
+  }
+  .pg-thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .pg-thumb:hover { opacity: 0.85; }
+  .pg-thumb.is-active { opacity: 1; box-shadow: inset 0 0 0 1px var(--gold); }
+  @media (prefers-reduced-motion: reduce) {
+    .pg-overlay, .pg-modal, .pg-img { transition: none; }
+  }
+
+  @media (max-width: 900px) {
+    .pg-overlay { padding: 2.5vh 2.5vw; }
+    .pg-modal { grid-template-columns: 1fr; grid-template-rows: auto 1fr; max-height: 95vh; }
+    .pg-visual { aspect-ratio: 4/3; }
+    .pg-close { width: 44px; height: 44px; }
+    .pg-nav { width: 44px; height: 44px; }
+    .pg-panel { padding: 1.6rem 1.4rem 1.4rem; }
+    .pg-name { font-size: 1.4rem; margin-top: 0.3rem; }
+    .pg-desc { margin-bottom: 1.2rem; }
+    .pg-thumbs { flex-wrap: nowrap; overflow-x: auto; margin-top: 0; padding-bottom: 0.2rem; }
+    .pg-thumb { flex: 0 0 56px; width: 56px; height: 56px; }
+  }
+
   /* VIDEO TOUR — full-bleed cinematic section, flush against its neighbours */
   .video-tour {
     position: relative; margin: 0; padding: 0; overflow: hidden;
@@ -1047,10 +1123,10 @@
     </div>
   </div>
   <div class="products-grid">
-    <div class="product-card"><div class="product-img-wrap"><img src="assets/products/most-sold-1.png" alt="Sculpted boucle armchair"></div></div>
-    <div class="product-card"><div class="product-img-wrap"><img src="assets/products/most-sold-2.png" alt="Conical lacquered coffee table"></div></div>
-    <div class="product-card"><div class="product-img-wrap"><img src="assets/products/most-sold-3.png" alt="Sculptural dog-form side table with tray"></div></div>
-    <div class="product-card"><div class="product-img-wrap"><img src="assets/products/most-sold-4.png" alt="Built-in linear electric fireplace"></div></div>
+    <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Sculpted Boucle Armchair"><div class="product-img-wrap"><img src="assets/products/most-sold-1.png" alt="Sculpted boucle armchair"></div></div>
+    <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Conical Lacquered Coffee Table"><div class="product-img-wrap"><img src="assets/products/most-sold-2.png" alt="Conical lacquered coffee table"></div></div>
+    <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Sculptural Dog-Form Side Table"><div class="product-img-wrap"><img src="assets/products/most-sold-3.png" alt="Sculptural dog-form side table with tray"></div></div>
+    <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Built-In Linear Electric Fireplace"><div class="product-img-wrap"><img src="assets/products/most-sold-4.png" alt="Built-in linear electric fireplace"></div></div>
   </div>
 </section>
 
@@ -1323,6 +1399,52 @@ const EMAIL_ADDRESS = ""; // TODO: e.g. "hello@dispazio.in"
 
 // CONFIG — update the footer YouTube link here once a channel exists.
 const YOUTUBE_URL = "#"; // TODO: replace "#" with the real channel URL
+
+// CONFIG — MOST SOLD product galleries, one array per product.
+// Each product's gallery starts with its existing "Most Sold" tile photo
+// (real, already on the site) and then four placeholder slots for the
+// additional angles. To add real photos later, just drop files in at
+// these exact paths (same assets/products/ folder as the existing
+// most-sold-N.png files) — nothing else needs to change. Until a given
+// file exists, its slide/thumbnail is skipped automatically rather than
+// showing a broken image, so it's safe to leave these paths as-is today.
+const product1Gallery = [
+  { src: "assets/products/most-sold-1.png",        label: "Front",  alt: "Sculpted boucle armchair — front view in a styled room" },
+  { src: "assets/products/most-sold-1-studio.jpg",  label: "Studio", alt: "Sculpted boucle armchair — studio front view" },
+  { src: "assets/products/most-sold-1-side.jpg",    label: "Side",   alt: "Sculpted boucle armchair — three-quarter side view" },
+  { src: "assets/products/most-sold-1-back.png",   label: "Back",   alt: "Sculpted boucle armchair — back view" },
+  { src: "assets/products/most-sold-1-cutout.png", label: "Cutout", alt: "Sculpted boucle armchair — cutout on transparent background" },
+];
+const product2Gallery = [
+  { src: "assets/products/most-sold-2.png",       label: "Front",  alt: "Conical lacquered coffee table — front view" },
+  { src: "assets/products/most-sold-2-side.png",   label: "Side",   alt: "Conical lacquered coffee table — side view" },
+  { src: "assets/products/most-sold-2-back.png",   label: "Back",   alt: "Conical lacquered coffee table — back view" },
+  { src: "assets/products/most-sold-2-detail.png", label: "Detail", alt: "Conical lacquered coffee table — detail view" },
+  { src: "assets/products/most-sold-2-cutout.png", label: "Cutout", alt: "Conical lacquered coffee table — cutout on transparent background" },
+];
+const product3Gallery = [
+  { src: "assets/products/most-sold-3.png",       label: "Front",  alt: "Sculptural dog-form side table with tray — front view" },
+  { src: "assets/products/most-sold-3-side.png",   label: "Side",   alt: "Sculptural dog-form side table with tray — side view" },
+  { src: "assets/products/most-sold-3-back.png",   label: "Back",   alt: "Sculptural dog-form side table with tray — back view" },
+  { src: "assets/products/most-sold-3-detail.png", label: "Detail", alt: "Sculptural dog-form side table with tray — detail view" },
+  { src: "assets/products/most-sold-3-cutout.png", label: "Cutout", alt: "Sculptural dog-form side table with tray — cutout on transparent background" },
+];
+const product4Gallery = [
+  { src: "assets/products/most-sold-4.png",       label: "Front",  alt: "Built-in linear electric fireplace — front view" },
+  { src: "assets/products/most-sold-4-side.png",   label: "Side",   alt: "Built-in linear electric fireplace — side view" },
+  { src: "assets/products/most-sold-4-back.png",   label: "Back",   alt: "Built-in linear electric fireplace — back view" },
+  { src: "assets/products/most-sold-4-detail.png", label: "Detail", alt: "Built-in linear electric fireplace — detail view" },
+  { src: "assets/products/most-sold-4-cutout.png", label: "Cutout", alt: "Built-in linear electric fireplace — cutout on transparent background" },
+];
+// Ties each gallery above to the name/description shown in the lightbox.
+// Order matches the 4 cards in .products-grid, left to right.
+// TODO: descriptions below are placeholder copy — replace with real product copy.
+const MOST_SOLD_PRODUCTS = [
+  { name: "Sculpted Boucle Armchair", description: "One of our most-requested silhouettes — soft, sculptural boucle on a solid frame.", images: product1Gallery },
+  { name: "Conical Lacquered Coffee Table", description: "A quiet showstopper — high-gloss lacquer over a sculpted conical base.", images: product2Gallery },
+  { name: "Sculptural Dog-Form Side Table", description: "Playful and sculptural, with a tray top that doubles as a catch-all for keys and candles.", images: product3Gallery },
+  { name: "Built-In Linear Electric Fireplace", description: "A clean-lined focal point that brings warmth to a room without the smoke.", images: product4Gallery },
+];
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
   // ── China Sourcing catalogue CTA ──
@@ -1709,8 +1831,190 @@ document.addEventListener('DOMContentLoaded', function() {
         .finally(() => clearTimeout(timeout));
     })();
   }
+
+  // ── MOST SOLD: product gallery lightbox ──
+  (() => {
+    const overlay = document.getElementById('pg-overlay');
+    const cards = document.querySelectorAll('.products-grid .product-card');
+    if (!overlay || !cards.length) return;
+
+    const modal    = overlay.querySelector('.pg-modal');
+    const stage    = document.getElementById('pg-stage');
+    const imgEl    = document.getElementById('pg-img');
+    const nameEl   = document.getElementById('pg-name');
+    const descEl   = document.getElementById('pg-desc');
+    const thumbsEl = document.getElementById('pg-thumbs');
+    const closeBtn = document.getElementById('pg-close');
+    const prevBtn  = document.getElementById('pg-prev');
+    const nextBtn  = document.getElementById('pg-next');
+
+    let images = [];       // confirmed-available images for the open product
+    let index = 0;
+    let lastFocused = null;
+    let touchStartX = null;
+
+    function focusable() {
+      return [...modal.querySelectorAll('button')].filter(el => el.offsetParent !== null);
+    }
+
+    function renderMain() {
+      const img = images[index];
+      if (!img) return;
+      imgEl.style.opacity = '0';
+      setTimeout(() => {
+        imgEl.src = img.src;
+        imgEl.alt = img.alt || '';
+        imgEl.style.opacity = '1';
+      }, 120);
+      thumbsEl.querySelectorAll('.pg-thumb').forEach((btn, i) => {
+        btn.classList.toggle('is-active', i === index);
+        btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      });
+    }
+
+    function goTo(newIndex) {
+      if (!images.length) return;
+      index = (newIndex + images.length) % images.length;
+      renderMain();
+    }
+
+    // A secondary angle (side/back/detail/cutout) only gets a thumbnail —
+    // and only becomes reachable via prev/next — once it's confirmed to
+    // actually load. This is what makes the placeholder paths in
+    // MOST_SOLD_PRODUCTS safe to leave as-is: today, every gallery just
+    // shows its one real photo; drop a file in at the documented path
+    // later and its thumbnail appears next time the lightbox opens.
+    function addThumb(imgData) {
+      const isActive = images.indexOf(imgData) === index;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pg-thumb' + (isActive ? ' is-active' : '');
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      btn.setAttribute('aria-label', imgData.label ? `Show ${imgData.label} view` : 'Show image');
+      const thumbImg = document.createElement('img');
+      thumbImg.src = imgData.src;
+      thumbImg.alt = '';
+      thumbImg.loading = 'lazy';
+      btn.appendChild(thumbImg);
+      btn.addEventListener('click', () => goTo(images.indexOf(imgData)));
+      thumbsEl.appendChild(btn);
+    }
+
+    function openGallery(product, triggerEl) {
+      lastFocused = triggerEl;
+      nameEl.textContent = product.name;
+      descEl.textContent = product.description || '';
+      thumbsEl.innerHTML = '';
+      imgEl.src = product.images[0].src;
+      imgEl.alt = product.images[0].alt || '';
+      images = [product.images[0]];
+      index = 0;
+      addThumb(product.images[0]);
+
+      // The main tile is shown immediately (above); the other four angles
+      // are only probed — and only fetched at full size — after the
+      // lightbox is already open and visible.
+      product.images.slice(1).forEach((imgData) => {
+        const probe = new Image();
+        probe.onload = () => { images.push(imgData); addThumb(imgData); };
+        probe.src = imgData.src;
+      });
+
+      overlay.classList.add('is-open'); // display:none -> flex, instant (no transition on display itself)
+      void overlay.offsetHeight;        // force the browser to register that closed state before...
+      overlay.classList.add('is-visible'); // ...animating opacity/transform in on the next style pass
+      document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', onKeydown);
+      closeBtn.focus();
+    }
+
+    let closeCleanupTimer = null;
+    function closeGallery() {
+      overlay.classList.remove('is-visible'); // fades out...
+      // ...then actually hides (display:none) once the fade finishes. Guarded
+      // by still-not-visible, in case the gallery gets reopened (for another
+      // product) before this fires — otherwise this stale cleanup could hide
+      // the newly-opened modal instead of the one that was actually closed.
+      const finish = () => { if (!overlay.classList.contains('is-visible')) overlay.classList.remove('is-open'); };
+      clearTimeout(closeCleanupTimer);
+      overlay.addEventListener('transitionend', function handler(e) {
+        if (e.target !== overlay) return;
+        overlay.removeEventListener('transitionend', handler);
+        clearTimeout(closeCleanupTimer);
+        finish();
+      });
+      closeCleanupTimer = setTimeout(finish, 350); // safety net if transitionend doesn't fire (e.g. reduced-motion)
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKeydown);
+      if (lastFocused) lastFocused.focus();
+    }
+
+    function onKeydown(e) {
+      if (e.key === 'Escape') { closeGallery(); return; }
+      if (e.key === 'ArrowRight') { goTo(index + 1); return; }
+      if (e.key === 'ArrowLeft') { goTo(index - 1); return; }
+      if (e.key === 'Tab') {
+        // Simple focus trap: keep Tab/Shift+Tab cycling within the modal.
+        const items = focusable();
+        if (!items.length) return;
+        const first = items[0], last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+
+    cards.forEach((card, i) => {
+      const product = MOST_SOLD_PRODUCTS[i];
+      if (!product) return;
+      // A mouse click on a tabindex="0" div focuses the div itself by
+      // default (before our click handler even runs) — prevented here so
+      // opening the gallery can reliably move focus straight to the modal
+      // instead. Keyboard Tab-focus is a separate mechanism and unaffected.
+      card.addEventListener('mousedown', (e) => e.preventDefault());
+      card.addEventListener('click', () => openGallery(product, card));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openGallery(product, card); }
+      });
+    });
+
+    closeBtn.addEventListener('click', closeGallery);
+    prevBtn.addEventListener('click', () => goTo(index - 1));
+    nextBtn.addEventListener('click', () => goTo(index + 1));
+    stage.addEventListener('click', () => goTo(index + 1));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeGallery(); });
+
+    // Touch swipe (mobile) — left = next, right = previous.
+    stage.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) goTo(dx < 0 ? index + 1 : index - 1);
+      touchStartX = null;
+    }, { passive: true });
+  })();
 });
 </script>
+
+<!-- MOST SOLD: PRODUCT GALLERY LIGHTBOX -->
+<div id="pg-overlay" class="pg-overlay">
+  <div class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="pg-name">
+    <button type="button" id="pg-close" class="pg-close" aria-label="Close gallery">✕</button>
+    <div class="pg-visual">
+      <button type="button" id="pg-prev" class="pg-nav pg-prev" aria-label="Previous image">‹</button>
+      <div class="pg-stage" id="pg-stage">
+        <img id="pg-img" class="pg-img" src="" alt="" />
+      </div>
+      <button type="button" id="pg-next" class="pg-nav pg-next" aria-label="Next image">›</button>
+    </div>
+    <div class="pg-panel">
+      <p class="section-eyebrow">Most Sold</p>
+      <h3 id="pg-name" class="pg-name"></h3>
+      <p id="pg-desc" class="pg-desc"></p>
+      <div id="pg-thumbs" class="pg-thumbs" role="tablist" aria-label="Product angles"></div>
+    </div>
+  </div>
+</div>
 
 <!-- WISHLIST SIDE PANEL -->
 <div id="wishlist-panel" style="position:fixed;top:0;right:-420px;width:420px;max-width:100vw;height:100vh;z-index:500;background:var(--cream);transition:right 0.35s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;box-shadow:-4px 0 40px rgba(26,23,20,0.18);">
