@@ -488,7 +488,7 @@
   }
   .product-card:hover .product-wish { opacity: 1; }
   .product-material { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
-  .product-name { font-family: var(--display); font-size: 1.1rem; font-weight: 400; color: var(--dark); margin-bottom: 0.4rem; }
+  .product-name { font-family: var(--display); font-size: 1.1rem; font-weight: 400; color: var(--dark); margin-bottom: 0.4rem; text-align: center; }
   .product-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem; }
   .product-price { font-family: var(--display); font-size: 1.05rem; color: var(--dark); }
   .product-add { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--warm-mid); background: none; border: none; cursor: pointer; font-family: var(--body); transition: color 0.2s; }
@@ -553,6 +553,21 @@
   .pg-panel { padding: 3rem 2.6rem; display: flex; flex-direction: column; overflow-y: auto; }
   .pg-name { font-family: var(--display); font-size: 1.7rem; font-weight: 400; color: var(--dark); line-height: 1.2; margin: 0.5rem 0 0.9rem; }
   .pg-desc { font-size: 0.88rem; color: rgba(26,23,20,0.65); line-height: 1.8; margin-bottom: 2rem; }
+  /* Extended product detail (About / Key Features / Material / Where It Works /
+     Installation) — populated only for products that carry a `details` object
+     in MOST_SOLD_PRODUCTS; other products keep the plain .pg-desc line above
+     and never render this at all. Reuses .pg-desc's own type scale so the two
+     read as one continuous voice rather than a bolted-on block. */
+  .pg-details { margin-bottom: 1.4rem; }
+  .pg-detail-section + .pg-detail-section { margin-top: 1.5rem; }
+  .pg-detail-heading {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.55rem;
+  }
+  .pg-detail-body { font-size: 0.88rem; color: rgba(26,23,20,0.65); line-height: 1.8; }
+  .pg-detail-list { list-style: none; margin: 0; padding: 0; font-size: 0.88rem; color: rgba(26,23,20,0.65); line-height: 1.8; }
+  .pg-detail-list li { position: relative; padding-left: 1.1rem; }
+  .pg-detail-list li::before { content: '•'; position: absolute; left: 0; color: var(--gold); }
   .pg-thumbs { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: auto; }
   .pg-thumb {
     width: 64px; height: 64px; padding: 0; border: none; cursor: pointer;
@@ -575,6 +590,8 @@
     .pg-panel { padding: 1.6rem 1.4rem 1.4rem; }
     .pg-name { font-size: 1.4rem; margin-top: 0.3rem; }
     .pg-desc { margin-bottom: 1.2rem; }
+    .pg-details { margin-bottom: 1.2rem; }
+    .pg-detail-section + .pg-detail-section { margin-top: 1.1rem; }
     .pg-thumbs { flex-wrap: nowrap; overflow-x: auto; margin-top: 0; padding-bottom: 0.2rem; }
     .pg-thumb { flex: 0 0 56px; width: 56px; height: 56px; }
   }
@@ -1225,7 +1242,7 @@
   <div class="ac-wrap" data-carousel="most-sold">
     <button type="button" class="ac-arrow ac-arrow-prev" aria-label="Scroll to previous products">‹</button>
     <div class="products-grid ac-track">
-      <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Sculpted Boucle Armchair"><div class="product-img-wrap"><img src="assets/products/most-sold-1.png" alt="Sculpted boucle armchair"></div></div>
+      <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Kids Sculptural Lounge Chair"><div class="product-img-wrap"><img src="assets/products/most-sold-1.png" alt="Kids sculptural lounge chair"></div><p class="product-name">Kids Sculptural Lounge Chair</p></div>
       <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Conical Lacquered Coffee Table"><div class="product-img-wrap"><img src="assets/products/most-sold-2.png" alt="Conical lacquered coffee table"></div></div>
       <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Sculptural Dog-Form Side Table"><div class="product-img-wrap"><img src="assets/products/most-sold-3.png" alt="Sculptural dog-form side table with tray"></div></div>
       <div class="product-card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View gallery for Built-In Linear Electric Fireplace"><div class="product-img-wrap"><img src="assets/products/most-sold-4.png" alt="Built-in linear electric fireplace"></div></div>
@@ -1513,11 +1530,11 @@ const YOUTUBE_URL = "#"; // TODO: replace "#" with the real channel URL
 // file exists, its slide/thumbnail is skipped automatically rather than
 // showing a broken image, so it's safe to leave these paths as-is today.
 const product1Gallery = [
-  { src: "assets/products/most-sold-1.png",        label: "Front",  alt: "Sculpted boucle armchair — front view in a styled room" },
-  { src: "assets/products/most-sold-1-studio.jpg",  label: "Studio", alt: "Sculpted boucle armchair — studio front view" },
-  { src: "assets/products/most-sold-1-side.jpg",    label: "Side",   alt: "Sculpted boucle armchair — three-quarter side view" },
-  { src: "assets/products/most-sold-1-back.png",   label: "Back",   alt: "Sculpted boucle armchair — back view" },
-  { src: "assets/products/most-sold-1-cutout.png", label: "Cutout", alt: "Sculpted boucle armchair — cutout on transparent background" },
+  { src: "assets/products/most-sold-1.png",        label: "Front",  alt: "Kids sculptural lounge chair — front view in a styled room" },
+  { src: "assets/products/most-sold-1-studio.jpg",  label: "Studio", alt: "Kids sculptural lounge chair — studio front view" },
+  { src: "assets/products/most-sold-1-side.jpg",    label: "Side",   alt: "Kids sculptural lounge chair — three-quarter side view" },
+  { src: "assets/products/most-sold-1-back.png",   label: "Back",   alt: "Kids sculptural lounge chair — back view" },
+  { src: "assets/products/most-sold-1-cutout.png", label: "Cutout", alt: "Kids sculptural lounge chair — cutout on transparent background" },
 ];
 const product2Gallery = [
   { src: "assets/products/most-sold-2.png",       label: "Front",  alt: "Conical lacquered coffee table — front view" },
@@ -1544,7 +1561,20 @@ const product4Gallery = [
 // Order matches the 4 cards in .products-grid, left to right.
 // TODO: descriptions below are placeholder copy — replace with real product copy.
 const MOST_SOLD_PRODUCTS = [
-  { name: "Sculpted Boucle Armchair", description: "One of our most-requested silhouettes — soft, sculptural boucle on a solid frame.", images: product1Gallery },
+  { name: "Kids Sculptural Lounge Chair", description: "One of our most-requested silhouettes — soft, sculptural boucle on a solid frame.", images: product1Gallery,
+    details: {
+      about: "A playful kids' chair with a soft sculptural shape, rounded edges and cosy green upholstery. Designed to bring comfort and personality to a child's space.",
+      features: [
+        "Soft cushioned seat and armrests",
+        "Child friendly rounded design",
+        "Fully upholstered sculptural form",
+        "Comfortable for reading, relaxing and playtime",
+      ],
+      material: "Soft textured fabric upholstery with plush cushioning and a sturdy internal frame.",
+      whereItWorks: "Perfect for kids' bedrooms, playrooms, nurseries and reading corners. A cosy little seat children can comfortably call their own.",
+      installation: "Minimal assembly required and easy to place in any kids' space.",
+    },
+  },
   { name: "Conical Lacquered Coffee Table", description: "A quiet showstopper — high-gloss lacquer over a sculpted conical base.", images: product2Gallery },
   { name: "Sculptural Dog-Form Side Table", description: "Playful and sculptural, with a tray top that doubles as a catch-all for keys and candles.", images: product3Gallery },
   { name: "Built-In Linear Electric Fireplace", description: "A clean-lined focal point that brings warmth to a room without the smoke.", images: product4Gallery },
@@ -2130,9 +2160,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal    = overlay.querySelector('.pg-modal');
     const stage    = document.getElementById('pg-stage');
     const imgEl    = document.getElementById('pg-img');
-    const nameEl   = document.getElementById('pg-name');
-    const descEl   = document.getElementById('pg-desc');
-    const thumbsEl = document.getElementById('pg-thumbs');
+    const nameEl    = document.getElementById('pg-name');
+    const descEl    = document.getElementById('pg-desc');
+    const detailsEl = document.getElementById('pg-details');
+    const thumbsEl  = document.getElementById('pg-thumbs');
     const closeBtn = document.getElementById('pg-close');
     const prevBtn  = document.getElementById('pg-prev');
     const nextBtn  = document.getElementById('pg-next');
@@ -2190,10 +2221,55 @@ document.addEventListener('DOMContentLoaded', function() {
       thumbsEl.appendChild(btn);
     }
 
+    // Builds the extended About / Key Features / Material / Where It Works /
+    // Installation sections for products that carry a `details` object.
+    // Products without one (today: 3 of the 4 Most Sold cards) render
+    // nothing here and keep showing the plain .pg-desc line instead — this
+    // never touches their existing copy.
+    function renderDetails(product) {
+      detailsEl.innerHTML = '';
+      const d = product.details;
+      if (!d) { descEl.style.display = ''; return; }
+      descEl.style.display = 'none'; // the full "About" section below replaces the short tagline
+      const sections = [
+        ['About the Product', 'body', d.about],
+        ['Key Features', 'list', d.features],
+        ['Material', 'body', d.material],
+        ['Where It Works', 'body', d.whereItWorks],
+        ['Installation', 'body', d.installation],
+      ];
+      sections.forEach(([heading, kind, content]) => {
+        if (!content || (kind === 'list' && !content.length)) return;
+        const section = document.createElement('div');
+        section.className = 'pg-detail-section';
+        const h = document.createElement('p');
+        h.className = 'pg-detail-heading';
+        h.textContent = heading;
+        section.appendChild(h);
+        if (kind === 'list') {
+          const ul = document.createElement('ul');
+          ul.className = 'pg-detail-list';
+          content.forEach((item) => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            ul.appendChild(li);
+          });
+          section.appendChild(ul);
+        } else {
+          const p = document.createElement('p');
+          p.className = 'pg-detail-body';
+          p.textContent = content;
+          section.appendChild(p);
+        }
+        detailsEl.appendChild(section);
+      });
+    }
+
     function openGallery(product, triggerEl) {
       lastFocused = triggerEl;
       nameEl.textContent = product.name;
       descEl.textContent = product.description || '';
+      renderDetails(product);
       thumbsEl.innerHTML = '';
       imgEl.src = product.images[0].src;
       imgEl.alt = product.images[0].alt || '';
@@ -2304,6 +2380,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <p class="section-eyebrow">Most Sold</p>
       <h3 id="pg-name" class="pg-name"></h3>
       <p id="pg-desc" class="pg-desc"></p>
+      <div id="pg-details" class="pg-details"></div>
       <div id="pg-thumbs" class="pg-thumbs" role="tablist" aria-label="Product angles"></div>
     </div>
   </div>
