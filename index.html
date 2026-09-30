@@ -199,7 +199,14 @@
     padding-top: 68px; overflow: hidden; background: var(--gold);
   }
   .hero-bg { position: absolute; inset: 0; z-index: 0; }
-  .hero-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* object-position (not the default 50% center): as the viewport narrows,
+     object-fit:cover has to zoom in further to fill a proportionally
+     taller box, and a center-anchored crop eats into the clear left/wall
+     area first — pushing the sofa closer to the text with every step
+     down. Anchoring toward the image's left side keeps that clear area
+     intact and crops the (less important) right side of the photo
+     instead. */
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 25% center; display: block; }
   .hero-scrim {
     /* Dark overlay removed on request — the hero photo now shows at its
        natural brightness/color. Element kept (position/inset) in case a
@@ -207,15 +214,22 @@
     position: absolute; inset: 0;
     background: none;
   }
-  /* Wraps hero-text with the same container-max/space-section-x rhythm the rest of the
-     site's sections use, so the left edge of the headline lines up with the site grid
-     instead of an arbitrary hardcoded offset. */
+  /* Left edge uses the shared --space-section-x padding (same rhythm as the
+     rest of the site), but — unlike other sections — hero-inner does NOT
+     also cap at --container-max/center itself. On wide screens that cap
+     was leaving ~100px of unused margin outside it, which pushed the text
+     that much closer to the sofa in the photo. Dropping the cap here
+     reclaims that margin so the text block sits further left, with more
+     clearance before the furniture. */
   .hero-inner {
-    position: relative; z-index: 1; width: 100%; max-width: var(--container-max);
-    margin: 0 auto; padding: 0 var(--space-section-x); box-sizing: border-box;
+    position: relative; z-index: 1; width: 100%;
+    padding: 0 var(--space-section-x); box-sizing: border-box;
   }
   .hero-text {
-    max-width: 600px;
+    /* Narrowed from 600px so the block (including the CTA row) clears the
+       sofa in the photo — see the .hero-cta-row note below for why this
+       exact width matters, not just the headline/paragraph. */
+    max-width: 320px;
     display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
     text-align: left; margin: 0;
     padding: 5rem 0;
@@ -231,10 +245,23 @@
   .hero-headline em { font-style: italic; color: var(--beige); }
   .hero-headline .hero-line2 { display: block; white-space: nowrap; font-size: clamp(1.7rem, 3.1vw, 3.4rem); }
   .hero-sub {
-    font-size: 0.88rem; color: rgba(250,248,244,0.78); max-width: 440px;
+    font-size: 0.88rem; color: rgba(250,248,244,0.78); max-width: 300px;
     line-height: 1.9; margin: 0 0 2.8rem;
   }
+  /* flex-wrap was already here; the narrower .hero-text (above) is what now
+     actually engages it — "Explore Collection" + "Visit Our Studio" side by
+     side no longer fit in 320px, so the second CTA drops to its own line
+     instead of trailing off toward the sofa in the photo. */
   .hero-cta-row { display: flex; gap: 1.5rem; align-items: center; justify-content: flex-start; flex-wrap: wrap; }
+  /* Tablet/small-desktop (still the photo-overlay layout, not yet the
+     stacked mobile one below): the sofa in the photo sits proportionally
+     further left at these widths, so the text column needs to be
+     narrower than the 320px used above ~1100px to keep the same
+     clearance from it. */
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .hero-text { max-width: 260px; }
+    .hero-sub { max-width: 240px; }
+  }
   .hero .btn-primary { background: var(--beige); color: var(--gold); }
   .hero .btn-primary:hover { background: var(--cream); }
   .hero .btn-ghost { color: var(--beige); }
