@@ -23,8 +23,10 @@ define('INSTAGRAM_ACCESS_TOKEN', '');
 // user/business ID.
 define('INSTAGRAM_USER_ID', 'me');
 
-// How many posts to show in the "Latest From Instagram" section.
-define('INSTAGRAM_POST_LIMIT', 6);
+// How many posts to show in the "Latest From Instagram" section. The
+// static fallback markup in index.html also has 8 posts, so this matches
+// it by default — change both together if you want a different count.
+define('INSTAGRAM_POST_LIMIT', 8);
 
 // How long (in seconds) a successful response is cached before
 // instagram.php fetches fresh data from Instagram again. 1500 = 25 minutes.

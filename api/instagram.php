@@ -38,7 +38,7 @@ if (is_file($configFile)) {
 // your Hostinger plan supports setting one.
 $ACCESS_TOKEN = getenv('INSTAGRAM_ACCESS_TOKEN') ?: (defined('INSTAGRAM_ACCESS_TOKEN') ? INSTAGRAM_ACCESS_TOKEN : '');
 $USER_ID      = getenv('INSTAGRAM_USER_ID') ?: (defined('INSTAGRAM_USER_ID') ? INSTAGRAM_USER_ID : 'me');
-$POST_LIMIT   = defined('INSTAGRAM_POST_LIMIT') ? (int) INSTAGRAM_POST_LIMIT : 6;
+$POST_LIMIT   = defined('INSTAGRAM_POST_LIMIT') ? (int) INSTAGRAM_POST_LIMIT : 8;
 $CACHE_TTL    = defined('INSTAGRAM_CACHE_TTL_SECONDS') ? (int) INSTAGRAM_CACHE_TTL_SECONDS : 1500; // 25 min
 
 $cacheDir  = __DIR__ . '/cache';
