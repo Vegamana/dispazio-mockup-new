@@ -195,9 +195,17 @@
 
   /* HERO */
   .hero {
-    position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: flex-start;
+    position: relative; min-height: 100vh; display: flex; align-items: flex-end; justify-content: flex-start;
     padding-top: 68px; overflow: hidden; background: var(--gold);
   }
+  /* align-items: flex-end (was center) — now that each slide photo has its
+     own headline + button baked in around the vertical middle of the
+     image, the one real #hero-cta button needs to sit lower, in the clear
+     floor/background space every one of the 5 photos has along its bottom
+     ~40%, rather than landing on top of the baked content. .hero-inner
+     has width:100% already, so this has no effect on the stacked mobile
+     layout below (cross-axis centering of a full-width block is a no-op
+     either way). */
   .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
   /* object-position (not the default 50% center): as the viewport narrows,
      object-fit:cover has to zoom in further to fill a proportionally
@@ -228,7 +236,18 @@
      full 600%-wide track's width instead of its own 1/6 slot — the actual
      cause of a sliver of the previous photo staying visible instead of
      fully sliding away. */
-  .hero-bg .hero-slide { position: relative; flex: 0 0 calc(100% / 6); width: calc(100% / 6); object-position: center center; }
+  /* object-fit: contain (not cover) — every slide now has a tagline and
+     button baked permanently into the image pixels, at a fixed position
+     within its fixed 1920x1080 canvas. cover's crop-to-fill was clipping
+     that text at some viewport sizes (worse the further the viewport's
+     aspect ratio departs from 16:9, since the hero is a full-viewport-
+     height section, not a 16:9 box) — no object-position bias fully fixes
+     that across every size. contain guarantees the whole banner, text
+     included, is always fully visible; the trade-off is a thin bar of the
+     hero's own solid background color (var(--gold), already the section's
+     fallback) showing above/below (or, at very wide viewports, beside)
+     the image rather than photo reaching every edge. */
+  .hero-bg .hero-slide { position: relative; flex: 0 0 calc(100% / 6); width: calc(100% / 6); object-fit: contain; object-position: center center; }
   @keyframes heroSlideTrack {
     0%     { transform: translateX(0%); }
     16.6%  { transform: translateX(0%); }
@@ -245,15 +264,10 @@
   @media (prefers-reduced-motion: reduce) {
     .hero-slide-track { animation: none; }
   }
-  .hero-scrim {
-    /* Restored (was "none" while the hero had a single fixed sofa photo
-       chosen to show at natural brightness) now that multiple varied
-       photos cycle behind the same light-colored text — a left-anchored
-       fade keeps the text column legible across every slide without
-       darkening the photo as a whole the way the old full radial scrim did. */
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 32%, rgba(0,0,0,0.16) 58%, rgba(0,0,0,0) 78%);
-  }
+  /* No .hero-scrim element any more: each of the 5 slide photos now has its
+     own tagline + CTA baked directly into the image (with its own built-in
+     contrast/backdrop behind that text), so a separate CSS legibility
+     overlay for a second, HTML-rendered text block is no longer needed. */
   /* Left edge uses the shared --space-section-x padding (same rhythm as the
      rest of the site), but — unlike other sections — hero-inner does NOT
      also cap at --container-max/center itself. On wide screens that cap
@@ -266,9 +280,9 @@
     padding: 0 var(--space-section-x); box-sizing: border-box;
   }
   .hero-text {
-    /* Narrowed from 600px so the block (including the CTA row) clears the
-       sofa in the photo — see the .hero-cta-row note below for why this
-       exact width matters, not just the headline/paragraph. */
+    /* Narrowed from 600px so the block cleared the sofa in the original
+       (now-removed) single hero photo; kept for whatever hero content
+       comes next. */
     max-width: 320px;
     display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
     text-align: left; margin: 0;
@@ -288,11 +302,6 @@
     font-size: 0.88rem; color: rgba(250,248,244,0.78); max-width: 300px;
     line-height: 1.9; margin: 0 0 2.8rem;
   }
-  /* flex-wrap was already here; the narrower .hero-text (above) is what now
-     actually engages it — "Explore Collection" + "Visit Our Studio" side by
-     side no longer fit in 320px, so the second CTA drops to its own line
-     instead of trailing off toward the sofa in the photo. */
-  .hero-cta-row { display: flex; gap: 1.5rem; align-items: center; justify-content: flex-start; flex-wrap: wrap; }
   /* Tablet/small-desktop (still the photo-overlay layout, not yet the
      stacked mobile one below): the sofa in the photo sits proportionally
      further left at these widths, so the text column needs to be
@@ -302,10 +311,6 @@
     .hero-text { max-width: 260px; }
     .hero-sub { max-width: 240px; }
   }
-  .hero .btn-primary { background: var(--beige); color: var(--gold); }
-  .hero .btn-primary:hover { background: var(--cream); }
-  .hero .btn-ghost { color: var(--beige); }
-  .hero .btn-ghost:hover { color: var(--cream); }
   .btn-primary {
     display: inline-block; padding: 0.85rem 2.4rem;
     background: var(--dark); color: var(--cream);
@@ -1039,7 +1044,6 @@
     .hero-text { max-width: none; padding: calc(var(--hero-img-h) - 68px + 1.75rem) 0 1rem; }
     .hero-sub { max-width: 320px; }
     .hero-bg { height: var(--hero-img-h); }
-    .hero-scrim { bottom: auto; height: var(--hero-img-h); }
     .hero-badge { position: static; margin: 1.5rem auto 0; width: fit-content; box-sizing: border-box; }
     .hero-badge-val { font-size: 0.95rem; }
     /* Collection tiles: 2-up still reads fine at tablet width */
@@ -1167,25 +1171,19 @@
 <section class="hero" id="home">
   <div class="hero-bg">
     <div class="hero-slide-track">
-      <img class="hero-slide" src="assets/hero/hero-1-kids-chair.jpg" alt="Playful teddy bear accent chair styled in a warm living room" />
-      <img class="hero-slide" src="assets/hero/hero-2-bulldog-decor.jpg" alt="Decorative black and gold bulldog figurine tray" />
-      <img class="hero-slide" src="assets/hero/hero-3-red-sofa.jpg" alt="Red modular sofa with cream cushions in a warmly lit living room" />
-      <img class="hero-slide" src="assets/hero/hero-4-bed.jpg" alt="Cream upholstered bed with a rust orange throw in a sunlit bedroom" />
-      <img class="hero-slide" src="assets/hero/hero-5-outdoor-dining.jpg" alt="Outdoor dining set on a patio overlooking a lake and hills" />
+      <img class="hero-slide" src="assets/hero/hero-1-kids-chair.jpg" alt="A Chair Full of Cuddles — playful teddy bear accent chair styled in a warm living room" />
+      <img class="hero-slide" src="assets/hero/hero-2-bulldog-decor.jpg" alt="Let Your Decor Do the Talking — decorative black and gold bulldog figurine tray" />
+      <img class="hero-slide" src="assets/hero/hero-3-red-sofa.jpg" alt="Bring Home the Bold — red modular sofa with cream cushions in a warmly lit living room" />
+      <img class="hero-slide" src="assets/hero/hero-4-bed.jpg" alt="Made for Better Mornings — cream upholstered bed with a rust orange throw in a sunlit bedroom" />
+      <img class="hero-slide" src="assets/hero/hero-5-outdoor-dining.jpg" alt="Made for Life Outside — outdoor dining set on a patio overlooking a lake and hills" />
       <!-- Trailing clone of the first frame, for a seamless loop — see the
            .hero-slide-track comment above. Hidden from assistive tech since
            it's a duplicate, not new content. -->
       <img class="hero-slide" src="assets/hero/hero-1-kids-chair.jpg" alt="" aria-hidden="true" />
     </div>
   </div>
-  <div class="hero-scrim"></div>
   <div class="hero-inner">
-    <div class="hero-text">
-      <div class="hero-cta-row">
-        <a href="https://drive.google.com/drive/folders/1E7nRFRLjokq5BjUFl6O_RPfVkzYFY3Zb?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn-primary">Explore Collection</a>
-        <a href="#find-us" class="btn-ghost">Visit Our Studio</a>
-      </div>
-    </div>
+    <div class="hero-text"></div>
   </div>
   <div class="hero-badge">
     <p class="hero-badge-label">Italian Design</p>
