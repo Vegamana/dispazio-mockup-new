@@ -337,7 +337,7 @@
   .hero-badge-val { font-family: var(--display); font-size: 1.1rem; font-weight: 400; color: var(--dark); }
 
   /* MARQUEE */
-  .marquee { background: var(--gold); padding: 0.9rem 0; overflow: hidden; white-space: nowrap; }
+  .marquee { background: var(--gold); padding: 0.55rem 0; overflow: hidden; white-space: nowrap; }
   .marquee-track { display: inline-block; animation: marquee 28s linear infinite; }
   .marquee-track span { font-size: 0.62rem; font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase; color: var(--beige); margin: 0 2rem; }
   @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -1039,11 +1039,11 @@
        strip on mobile — the hero now sizes to its own content (image + text) instead.
        The text block starts below that image strip (--hero-img-h) rather than overlapping it,
        and shares the section left edge (--space-section-x). */
-    .hero { --hero-img-h: clamp(210px, 62vw, 300px); min-height: 0; flex-direction: column; padding-bottom: 2.5rem; }
+    .hero { --hero-img-h: calc(56.25vw + 68px); min-height: 0; flex-direction: column; padding-bottom: 0; }
     .hero-inner { padding: 0; }
-    .hero-text { max-width: none; padding: calc(var(--hero-img-h) - 68px + 1.75rem) 0 1rem; }
+    .hero-text { max-width: none; padding: calc(var(--hero-img-h) - 76px) 0 0; }
     .hero-sub { max-width: 320px; }
-    .hero-bg { height: var(--hero-img-h); }
+    .hero-bg { top: 60px; height: 56.25vw; } /* exact 16:9 so the photo fills the width, no navy side bars */
     .hero-badge { position: static; margin: 1.5rem auto 0; width: fit-content; box-sizing: border-box; }
     .hero-badge-val { font-size: 0.95rem; }
     /* Collection tiles: 2-up still reads fine at tablet width */
@@ -1184,10 +1184,6 @@
   </div>
   <div class="hero-inner">
     <div class="hero-text"></div>
-  </div>
-  <div class="hero-badge">
-    <p class="hero-badge-label">Italian Design</p>
-    <p class="hero-badge-val">The Shape of Luxury</p>
   </div>
 </section>
 
